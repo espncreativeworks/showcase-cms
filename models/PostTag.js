@@ -1,5 +1,5 @@
 var keystone = require('keystone')
-  , _ = require('underscore');
+  , methods = require('../lib/methods');
 
 /**
  * PostTag Model
@@ -17,10 +17,8 @@ PostTag.add({
 // Methods
 // ------------------------------
 
-PostTag.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: PostTag
 });
 
 PostTag.relationship({ ref: 'Post', path: 'tags' });

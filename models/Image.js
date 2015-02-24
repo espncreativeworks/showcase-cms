@@ -1,8 +1,8 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 /**
  * Image Model
@@ -67,10 +67,8 @@ removeFromRelated.add({
 // Methods
 // ------------------------------
 
-_Image.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: _Image
 });
 
 _Image.defaultColumns = 'title, usage, status';

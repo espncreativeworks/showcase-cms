@@ -1,11 +1,10 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  // , async = require('async')
   , meta = require('../lib/meta')
   , social = require('../lib/social')
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
-  , statics = require('../lib/statics');
+  , statics = require('../lib/statics')
+  , methods = require('../lib/methods');
 
 /**
  * Person Model
@@ -13,7 +12,9 @@ var keystone = require('keystone')
  */
 
 var Person = new keystone.List('Person', {
-  autokey: { path: 'slug', from: 'name', unique: true }
+  autokey: { path: 'slug', from: 'name', unique: true },
+  // track: true,
+  searchFields: 'name, homepage, meta.keywords'
 });
 
 Person.add({
@@ -57,7 +58,7 @@ Person.schema.pre('save', function (next) {
 
 Person.schema.pre('save', function(next) {
   var person = this;
-  // If no published date, it's a new draft
+  // If wasNew, it's a new draft
   if (person.wasNew){
     person.status = 'draft';
   } 
@@ -76,17 +77,15 @@ removeFromRelated.add({
 // Methods
 // ------------------------------
 
-Person.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Person
 });
 
 
 // Registration
 // ------------------------------
 
-Person.defaultColumns = 'name, status, publishedAt';
+Person.defaultColumns = 'name, status, meta.publishedAt';
 Person.register();
 
 

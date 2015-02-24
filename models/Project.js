@@ -1,7 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 /**
  * Project Model
@@ -11,7 +11,8 @@ var keystone = require('keystone')
 var Project = new keystone.List('Project', {
   map: { name: 'title' },
   autokey: { path: 'slug', from: 'title', unique: true },
-  track: true
+  track: true,
+  searchFields: 'name, tagline, meta.keywords'
 });
 
 Project.add({
@@ -22,6 +23,7 @@ Project.add({
     extended: { type: Types.Markdown }
   },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
+  isFeatured: { type: Types.Boolean, default: false },
   highlights: { type: Types.Markdown },
   brands: { type: Types.Relationship, ref: 'Brand', many: true },
   executions: { type: Types.Relationship, ref: 'Execution', many: true },
@@ -42,10 +44,8 @@ meta.add({ list: Project });
 // Methods
 // ------------------------------
 
-Project.schema.set('toJSON', {
-  transform: function(doc, ret, options) {
-    return _.omit(ret, '__v', 'name');
-  }
+methods.toJSON.set({ 
+  list: Project
 });
 
 Project.defaultColumns = 'title, status|20%, meta.publishedAt';

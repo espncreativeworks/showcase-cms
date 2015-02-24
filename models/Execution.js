@@ -1,7 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 /**
  * Execution Model
@@ -9,7 +9,8 @@ var keystone = require('keystone')
  */
 
 var Execution = new keystone.List('Execution', {
-  autokey: { path: 'slug', from: 'name', unique: true }
+  autokey: { path: 'slug', from: 'name', unique: true },
+  track: true
 });
 
 Execution.add({
@@ -20,7 +21,7 @@ Execution.add({
   },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
   platform: { type: Types.Relationship, ref: 'Platform' },
-  tags: { type: Types.Relationship, ref: 'ExecutionTag', many: true },
+  tags: { type: Types.Relationship, ref: 'ExecutionTag', many: true, filters: { platform: ':platform' } },
   related: { type: Types.Relationship, ref: 'Execution', many: true }
 }, 'Content', {
   images: { type: Types.Relationship, ref: 'Image', filters: { usage: 'execution', platform: ':platform' }, many: true },
@@ -33,11 +34,9 @@ meta.add({ list: Execution });
 // Methods
 // ------------------------------
 
-Execution.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Execution
 });
 
-Execution.defaultColumns = 'name, platform, status';
+Execution.defaultColumns = 'name, status, meta.publishedAt';
 Execution.register();

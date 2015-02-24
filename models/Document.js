@@ -1,7 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 /**
  * Document Model
@@ -44,10 +44,8 @@ meta.add({ list: _Document });
 // Methods
 // ------------------------------
 
-_Document.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: _Document
 });
 
 _Document.defaultColumns = 'title, usage, status, meta.publishedAt';

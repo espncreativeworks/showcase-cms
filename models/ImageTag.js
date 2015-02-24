@@ -1,5 +1,5 @@
 var keystone = require('keystone')
-  , _ = require('underscore');
+  , methods = require('../lib/methods');
 
 /**
  * ImageTag Model
@@ -17,10 +17,8 @@ ImageTag.add({
 // Methods
 // ------------------------------
 
-ImageTag.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: ImageTag
 });
 
 ImageTag.relationship({ ref: 'Image', path: 'tags' });

@@ -1,5 +1,5 @@
 var keystone = require('keystone')
-  , _ = require('underscore');
+  , methods = require('../lib/methods');
 
 
 /**
@@ -18,10 +18,8 @@ DocumentTag.add({
 // Methods
 // ------------------------------
 
-DocumentTag.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: DocumentTag
 });
 
 DocumentTag.relationship({ ref: 'Document', path: 'tags' });

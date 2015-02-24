@@ -1,7 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 
 /**
@@ -86,31 +86,35 @@ Video.schema.virtual('description.full').get(function() {
 // Methods
 // ------------------------------
 
-Video.schema.set('toJSON', {
-  transform: function(doc) {
-    var keys = ['__v'];
+// Video.schema.set('toJSON', {
+//   transform: function(doc) {
+//     var keys = ['__v'];
 
-    if (!_.has(doc, 'youtube') || doc.youtube.id === ''){
-      keys.push('youtube');
-    }
+//     if (!_.has(doc, 'youtube') || doc.youtube.id === ''){
+//       keys.push('youtube');
+//     }
 
-    if (!_.has(doc, 'vimeo') || doc.vimeo.id === ''){
-      keys.push('vimeo');
-    }
+//     if (!_.has(doc, 'vimeo') || doc.vimeo.id === ''){
+//       keys.push('vimeo');
+//     }
 
-    if (!_.has(doc, 'espn') || doc.espn.id === ''){
-      keys.push('espn');
-    }
+//     if (!_.has(doc, 'espn') || doc.espn.id === ''){
+//       keys.push('espn');
+//     }
 
-    return _.omit(doc, keys);
-  }
+//     return _.omit(doc, keys);
+//   }
+// });
+
+methods.toJSON.set({ 
+  list: Video
 });
 
 
 // Registration
 // ------------------------------
 
-Video.defaultColumns = 'title, status, publishedAt';
+Video.defaultColumns = 'title, status, meta.publishedAt';
 Video.register();
 
 

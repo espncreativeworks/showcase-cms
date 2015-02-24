@@ -1,8 +1,8 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
   , validate = require('mongoose-validator')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 var phoneValidators = [
   validate({
@@ -47,11 +47,9 @@ Location.add({
 meta.add({ list: Location });
 
 
-Location.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Location
 });
 
-Location.defaultColumns = 'name, address, phone, email';
+Location.defaultColumns = 'name, address, phone, email, meta.publishedAt';
 Location.register();

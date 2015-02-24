@@ -1,7 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 
 /**
@@ -10,7 +10,9 @@ var keystone = require('keystone')
  */
 
 var Platform = new keystone.List('Platform', {
-  autokey: { path: 'slug', from: 'name', unique: true }
+  autokey: { path: 'slug', from: 'name', unique: true },
+  track: true,
+  searchFields: 'name, meta.keywords'
 });
 
 Platform.add({
@@ -36,13 +38,11 @@ meta.add({ list: Platform });
 // Methods
 // ------------------------------
 
-Platform.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Platform
 });
 
-Platform.defaultColumns = 'name, status, publishedAt';
+Platform.defaultColumns = 'name, status, meta.publishedAt';
 Platform.register();
 
 

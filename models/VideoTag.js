@@ -1,5 +1,5 @@
 var keystone = require('keystone')
-  , _ = require('underscore');
+  , methods = require('../lib/methods');
 
 
 /**
@@ -21,15 +21,8 @@ VideoTag.add({
 // Methods
 // ------------------------------
 
-VideoTag.schema.set('toObject', {
-  virtuals: true
-});
-
-VideoTag.schema.set('toJSON', {
-  virtuals: true,
-  transform: function(doc) {
-    return _.pick(doc, '_id', 'name', 'key');
-  }
+methods.toJSON.set({ 
+  list: VideoTag
 });
 
 

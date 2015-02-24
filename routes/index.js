@@ -104,7 +104,9 @@ exports = module.exports = function(app) {
   // platforms
   app.get('/api/platforms', routes.api.platforms.list);
   // app.post('/api/platforms', routes.api.platforms.create);
+  app.get('/api/platforms/:key/executions', routes.api.platforms.executions);
   app.get('/api/platforms/:key', routes.api.platforms.show);
+
 
   // postTags
   app.get('/api/post-tags', routes.api.postTags.list);
@@ -118,8 +120,11 @@ exports = module.exports = function(app) {
 
   // projects
   app.get('/api/projects', routes.api.projects.list);
+  app.get('/api/projects/featured', routes.api.projects.featured);
   // app.post('/api/projects', routes.api.projects.create);
   app.get('/api/projects/:key', routes.api.projects.show);
+  app.get('/api/projects/:key/tags', routes.api.projects.tags);
+  app.get('/api/projects/:key/executions', routes.api.projects.executions);
 
   // sports
   app.get('/api/sports', routes.api.sports.list);

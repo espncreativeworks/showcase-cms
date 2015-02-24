@@ -1,5 +1,5 @@
 var keystone = require('keystone')
-  , _ = require('underscore');
+  , methods = require('../lib/methods');
 
 
 /**
@@ -25,10 +25,8 @@ Timezone.add({
 // Methods
 // ------------------------------
 
-Timezone.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Timezone
 });
 
 

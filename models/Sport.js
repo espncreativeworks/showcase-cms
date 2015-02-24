@@ -1,7 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 
 /**
@@ -10,7 +10,9 @@ var keystone = require('keystone')
  */
 
 var Sport = new keystone.List('Sport', {
-  autokey: { path: 'slug', from: 'name', unique: true }
+  autokey: { path: 'slug', from: 'name', unique: true },
+  track: true,
+  searchFields: 'name, meta.keywords'
 });
 
 Sport.add({
@@ -38,17 +40,15 @@ meta.add({ list: Sport });
 // Methods
 // ------------------------------
 
-Sport.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Sport
 });
 
 
 // Registration
 // ------------------------------
 
-Sport.defaultColumns = 'name, status, publishedAt';
+Sport.defaultColumns = 'name, status, meta.publishedAt';
 Sport.register();
 
 

@@ -1,9 +1,9 @@
 var keystone = require('keystone')
 	, Types = keystone.Field.Types
-  , _ = require('underscore')
   , meta = require('../lib/meta')
   , social = require('../lib/social')
-  , statics = require('../lib/statics');
+  , statics = require('../lib/statics')
+  , methods = require('../lib/methods');
 
 
 /**
@@ -47,10 +47,9 @@ User.schema.virtual('canAccessKeystone').get(function() {
 // Methods
 // ------------------------------
 
-User.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: User,
+  omit: ['__v', 'password']
 });
 
 
@@ -64,5 +63,5 @@ User.relationship({ ref: 'Post', path: 'posts', refPath: 'author' });
 // Registration
 // ------------------------------
 
-User.defaultColumns = 'name, email, isAdmin';
+User.defaultColumns = 'name, email, isAdmin, meta.publishedAt';
 User.register();

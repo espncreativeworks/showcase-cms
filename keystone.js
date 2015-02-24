@@ -106,7 +106,8 @@ keystone.set('nav', {
 	'tags': ['image-tags', 'video-tags', 'document-tags', 'execution-tags'],
 	'blog': ['posts', 'post-tags'],
 	// 'contact': 'enquiries',
-	'profiles': ['users', 'brands', 'people', 'locations']
+	'profiles': ['users', 'brands', 'people', 'locations'],
+	'accounts': ['accounts', 'collections', 'collection-items']
 });
 
 // Start Keystone to connect to your database and initialise the web server

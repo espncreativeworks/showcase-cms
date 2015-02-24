@@ -1,5 +1,6 @@
 var keystone = require('keystone')
   , Platform = keystone.list('Platform').model
+  , Execution = keystone.list('Execution').model
   , utils = require('../utils/');
 
 function listPlatforms(req, res){
@@ -7,6 +8,7 @@ function listPlatforms(req, res){
     , q;
 
   q = Platform.find(doc);
+  q = utils.relationships.populate(Platform, q, req);
 
   q.exec().then(function(platforms){
     res.status(200).json(platforms);
@@ -30,6 +32,32 @@ function showPlatform(req, res){
   });
 }
 
+function showPlatformExecutions(req, res){
+  var key = req.params.key
+    , doc = utils.queries.defaults.show(key)
+    , q;
+  
+  q = Platform.findOne(doc);
+
+  q.exec().then(function (platform){
+    if (platform){
+      var _q = Execution.find({ platform: platform._id });
+      _q = utils.relationships.populate(Execution, _q, req)
+      return _q.exec();
+    } else {
+      utils.errors.notFound(res, []);
+    }
+  }).then(function (executions){
+    if (executions){
+      res.status(200).json(executions);
+    } else {
+      utils.errors.notFound(res, []);
+    }
+  }, function (err){
+    utils.errors.internal(res, err);
+  });
+}
+
 function createPlatform(req, res){
   var doc = req.body
     , q;
@@ -46,5 +74,6 @@ function createPlatform(req, res){
 exports = module.exports = {
   list: listPlatforms,
   show: showPlatform,
-  create: createPlatform
+  create: createPlatform,
+  executions: showPlatformExecutions
 };

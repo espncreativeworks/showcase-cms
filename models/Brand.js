@@ -1,10 +1,10 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
   , meta = require('../lib/meta')
   , social = require('../lib/social')
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
-  , statics = require('../lib/statics');
+  , statics = require('../lib/statics')
+  , methods = require('../lib/methods');
 
 
 /**
@@ -73,10 +73,8 @@ removeFromRelated.add({
 // Methods
 // ------------------------------
 
-Brand.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Brand
 });
 
 

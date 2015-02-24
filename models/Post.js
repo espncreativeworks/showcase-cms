@@ -1,7 +1,7 @@
 var keystone = require('keystone')
 	, Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 
 /**
@@ -11,7 +11,9 @@ var keystone = require('keystone')
 
 var Post = new keystone.List('Post', {
 	map: { name: 'title' },
-	autokey: { path: 'slug', from: 'title', unique: true }
+	autokey: { path: 'slug', from: 'title', unique: true },
+  track: true,
+  searchFields: 'name, meta.keywords'
 });
 
 Post.add({
@@ -40,15 +42,13 @@ meta.add({ list: Post });
 // Methods
 // ------------------------------
 
-Post.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Post
 });
 
 
 // Registration
 // ------------------------------
 
-Post.defaultColumns = 'title, state|20%, author|20%';
+Post.defaultColumns = 'title, state|20%, meta.publishedAt';
 Post.register();

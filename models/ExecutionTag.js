@@ -1,5 +1,7 @@
 var keystone = require('keystone')
-  , _ = require('underscore');
+  , Types = keystone.Field.Types
+  , methods = require('../lib/methods')
+  , removeFromRelated = require('../lib/hooks/removeFromRelated');
 
 /**
  * ExecutionTag Model
@@ -11,17 +13,28 @@ var ExecutionTag = new keystone.List('ExecutionTag', {
 });
 
 ExecutionTag.add({
-  name: { type: String, required: true }
+  name: { type: String, required: true, initial: true },
+  platform: { type: Types.Relationship, ref: 'Platform', required: true, initial: true }
 });
 
 // Methods
 // ------------------------------
 
-ExecutionTag.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: ExecutionTag
 });
 
+
+// Post Remove
+// ------------------------------
+
+removeFromRelated.add({ 
+  list: ExecutionTag, 
+  related: [ 'Execution' ],
+  path: 'tags'
+});
+
+
 ExecutionTag.relationship({ ref: 'Execution', path: 'tags' });
+ExecutionTag.defaultColumns = 'name, platform';
 ExecutionTag.register();

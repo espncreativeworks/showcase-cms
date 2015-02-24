@@ -1,7 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 /**
  * Industry Model
@@ -27,13 +27,11 @@ Industry.add({
 meta.add({ list: Industry });
 
 
-Industry.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Industry
 });
 
-Industry.defaultColumns = 'name, status, publishedAt';
+Industry.defaultColumns = 'name, status, meta.publishedAt';
 Industry.register();
 
 

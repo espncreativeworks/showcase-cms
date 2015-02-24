@@ -1,7 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , _ = require('underscore')
-  , meta = require('../lib/meta');
+  , meta = require('../lib/meta')
+  , methods = require('../lib/methods');
 
 /**
  * Channel Model
@@ -34,10 +34,8 @@ meta.add({ list: Channel });
 // Methods
 // ------------------------------
 
-Channel.schema.set('toJSON', {
-  transform: function(doc) {
-    return _.omit(doc, '__v');
-  }
+methods.toJSON.set({ 
+  list: Channel
 });
 
 Channel.defaultColumns = 'name, status, meta.publishedAt';
