@@ -1,6 +1,7 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
-  , meta = require('../lib/meta')
+  , removeFromRelated = require('../lib/hooks/removeFromRelated')
+  , statics = require('../lib/statics')
   , methods = require('../lib/methods');
 
 /**
@@ -10,18 +11,35 @@ var keystone = require('keystone')
 
 var CollectionItem = new keystone.List('CollectionItem', {
   track: true,
-  searchFields: 'notes, execution.name'
+  searchFields: 'belongsTo, execution, notes'
 });
 
 CollectionItem.add({
+  belongsTo: { type: Types.Relationship, ref: 'Collection', label: 'Collection' }, 
   execution: { type: Types.Relationship, ref: 'Execution' },
   notes: { type: Types.Textarea }
 });
 
-meta.add({ list: CollectionItem });
-
 // Virtuals
 // ------------------------------
+
+
+// Post Remove
+// ------------------------------
+
+removeFromRelated.add({ 
+  list: CollectionItem, 
+  related: [ 'Collection' ],
+  path: 'items'
+});
+
+// Statics
+// ------------------------------
+
+statics.findOrCreate.add({ 
+  list: CollectionItem, 
+  validKeys: [ 'belongsTo', 'execution', 'notes' ] 
+});
 
 
 // Methods
@@ -31,7 +49,8 @@ methods.toJSON.set({
   list: CollectionItem
 });
 
-CollectionItem.defaultColumns = 'execution, notes';
+CollectionItem.defaultSort = '-createdAt';
+CollectionItem.defaultColumns = '_id, belongsTo, execution, notes';
 CollectionItem.register();
 
 
