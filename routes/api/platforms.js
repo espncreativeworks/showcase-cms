@@ -42,7 +42,7 @@ function showPlatformExecutions(req, res){
   q.exec().then(function (platform){
     if (platform){
       var _q = Execution.find({ platform: platform._id });
-      _q = utils.relationships.populate(Execution, _q, req)
+      _q = utils.relationships.populate(Execution, _q, req);
       return _q.exec();
     } else {
       utils.errors.notFound(res, []);
