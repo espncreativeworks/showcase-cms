@@ -56,6 +56,22 @@ exports = module.exports = function(app) {
   // app.post('/api/channels', routes.api.channels.create);
   app.get('/api/channels/:key', routes.api.channels.show);
 
+  // collection-items
+  app.get('/api/collection-items', routes.api.collectionItems.list);
+  app.post('/api/collection-items', routes.api.collectionItems.create);
+  app.get('/api/collection-items/:key', routes.api.collectionItems.show);
+  app.put('/api/collection-items/:key', routes.api.collectionItems.update);
+  app.patch('/api/collection-items/:key', routes.api.collectionItems.update);
+  app.delete('/api/collection-items/:key', routes.api.collectionItems.destroy);
+
+  // collections
+  app.get('/api/collections', routes.api.collections.list);
+  app.post('/api/collections', routes.api.collections.create);
+  app.get('/api/collections/:key', routes.api.collections.show);
+  app.put('/api/collections/:key', routes.api.collections.update);
+  app.patch('/api/collections/:key', routes.api.collections.update);
+  app.delete('/api/collections/:key', routes.api.collections.destroy);
+
   // documents
   app.get('/api/documents', routes.api.documents.list);
   // app.post('/api/documents', routes.api.documents.create);
