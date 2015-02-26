@@ -9,7 +9,10 @@ var keystone = require('keystone')
  * ==========
  */
 
-var Account = new keystone.List('Account');
+var Account = new keystone.List('Account', {
+  track: true,
+  searchFields: 'name, email, username'
+});
 
 Account.add({
   name: { type: Types.Text, initial: true, required: true, index: true },
@@ -17,8 +20,9 @@ Account.add({
   username: { type: Types.Text },
   role: { type: Types.Select, options: 'guest, account, admin', default: 'account', index: true },
   hashedPassword: { type: Types.Text, hidden: true },
+  salt: { type: Types.Text, hidden: true },
   provider: { type: Types.Text },
-  salt: { type: Types.Text, hidden: true }
+  collections: { type: Types.Relationship, ref: 'Collection', many: true, filters: { creator: ':_id' } }
 });
 
 Account.schema.add({
@@ -155,6 +159,6 @@ Account.schema.methods = {
 
 // Registration
 // ------------------------------
-
+Account.defaultSort = '';
 Account.defaultColumns = 'name, email, provider, role';
 Account.register();
