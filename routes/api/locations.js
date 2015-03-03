@@ -7,7 +7,8 @@ function listLocations(req, res){
     , q;
 
   q = Location.find(doc);
-
+  q = utils.relationships.populate(Location, q, req);
+  
   q.exec().then(function(locations){
     res.status(200).json(locations);
   }, function (err){
