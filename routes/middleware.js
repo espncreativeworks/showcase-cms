@@ -8,7 +8,8 @@
  * modules in your project's /lib directory.
  */
 
-var _ = require('underscore');
+var keystone = require('keystone')
+	,_ = require('underscore');
 
 
 /**
@@ -71,3 +72,5 @@ exports.requireUser = function(req, res, next) {
 	}
 	
 };
+
+exports.raygunErrorHandler = keystone.get('raygun client').expressHandler;

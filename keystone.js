@@ -4,8 +4,10 @@ require('dotenv').load();
 
 // Require keystone
 var keystone = require('keystone'),
-	handlebars = require('express-handlebars'),
-	appName = 'Showcase';
+	, handlebars = require('express-handlebars')
+	, raygun = require('raygun')
+	, raygunClient = new raygun.Client().init({ apiKey: process.env.RAYGUN_APIKEY })
+	, appName = 'Showcase';
 
 if ('development' === process.env.NODE_ENV){
 	appName += ' (Dev)';
@@ -43,7 +45,8 @@ keystone.init({
 	'session store': 'mongo',
 	'auth': true,
 	'user model': 'User',
-	'cookie secret': process.env.COOKIE_SECRET
+	'cookie secret': process.env.COOKIE_SECRET,
+	'raygun client': raygunClient
 
 });
 

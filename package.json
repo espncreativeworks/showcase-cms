@@ -13,9 +13,11 @@
     "mime": "^1.3.4",
     "moment": "~2.8.1",
     "mongoose-validator": "^1.0.3",
+    "newrelic": "^1.17.2",
     "node-sass": "~1.0.1",
     "node-sass-middleware": "^0.4.0",
     "q": "^1.1.2",
+    "raygun": "^0.6.0",
     "timezones-json": "0.0.1",
     "underscore": "^1.7.0"
   },
