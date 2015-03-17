@@ -4,7 +4,14 @@ require('dotenv').load();
 
 // Require keystone
 var keystone = require('keystone'),
-	handlebars = require('express-handlebars');
+	handlebars = require('express-handlebars'),
+	appName = 'Showcase';
+
+if ('development' === process.env.NODE_ENV){
+	appName += ' (Dev)';
+} else if ('testing' === process.env.NODE_ENV){
+	appName += ' (Stg)'
+}
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -12,8 +19,8 @@ var keystone = require('keystone'),
 
 keystone.init({
 
-	'name': 'ESPN CreativeWorks Showcase',
-	'brand': 'ESPN CreativeWorks Showcase',
+	'name': appName,
+	'brand': appName,
 	
 	'sass': 'public',
 	'static': 'public',
