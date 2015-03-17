@@ -3,14 +3,14 @@
 require('dotenv').load();
 
 // Require keystone
-var keystone = require('keystone'),
+var keystone = require('keystone')
 	, handlebars = require('express-handlebars')
 	, raygun = require('raygun')
 	, raygunClient = new raygun.Client().init({ apiKey: process.env.RAYGUN_APIKEY })
 	, appName = 'Showcase';
 
 if ('production' !== process.env.NODE_ENV){
-	appName += ' (' + process.env.NODE_ENV + ')'
+	appName += ' (' + process.env.NODE_ENV + ')';
 }
 
 // Initialise Keystone with your project's configuration.
