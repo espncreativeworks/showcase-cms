@@ -9,10 +9,8 @@ var keystone = require('keystone'),
 	, raygunClient = new raygun.Client().init({ apiKey: process.env.RAYGUN_APIKEY })
 	, appName = 'Showcase';
 
-if ('development' === process.env.NODE_ENV){
-	appName += ' (Dev)';
-} else if ('testing' === process.env.NODE_ENV){
-	appName += ' (Stg)'
+if ('production' !== process.env.NODE_ENV){
+	appName += ' (' + process.env.NODE_ENV + ')'
 }
 
 // Initialise Keystone with your project's configuration.
