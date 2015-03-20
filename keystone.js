@@ -19,8 +19,11 @@ if ('production' !== process.env.NODE_ENV){
 
 keystone.init({
 
-	'name': appName,
-	'brand': appName,
+	// 'name': appName,
+	// 'brand': appName,
+
+	'name': 'ESPN CreativeWorks Showcase',
+	'brand': 'ESPN CreativeWorks Showcase',
 	
 	'sass': 'public',
 	'static': 'public',

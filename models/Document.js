@@ -1,7 +1,9 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
   , meta = require('../lib/meta')
-  , methods = require('../lib/methods');
+  , methods = require('../lib/methods')
+  , removeFromRelated = require('../lib/hooks/removeFromRelated')
+  , _ = require('underscore');
 
 /**
  * Document Model
@@ -30,6 +32,7 @@ _Document.add({
     extended: { type: Types.Markdown }
   },
   usage: { type: Types.Select, options: 'execution, email, other', default: 'execution', required: true, initial: true, index: true },
+  execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
   platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
   thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' } },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
@@ -47,6 +50,54 @@ meta.add({ list: _Document });
 methods.toJSON.set({ 
   list: _Document
 });
+
+// Pre Save
+// ------------------------------
+
+// TODO: refactor to abstracted module
+_Document.schema.pre('save', function(next) {
+  var _document = this
+    , Execution = keystone.list('Execution').model
+    , q;
+
+  // if _document is an execution and the execution has been set...
+  if (_document.usage === 'execution' && _document.execution){
+    q = Execution.findOne({ _id: _document.execution });
+    q.exec().then(function (execution){
+      // if the _document isn't assigned to the execution.videos, add it
+      var _documentIds = _.map(execution.documents, function (_documentId){
+        return _documentId.toString();
+      });
+
+      if (!_.contains(_documentIds, _document._id.toString())){
+        execution.documents.push(_document._id);
+        execution.save(function (err){
+          if (err){
+            return next(err);
+          } 
+          next()
+        });
+      } else {
+        next();
+      }
+    }, function (err){
+      next(err);
+    });
+  } else {
+    next();
+  }
+});
+
+
+// Post Remove
+// ------------------------------
+
+removeFromRelated.add({ 
+  list: _Document, 
+  related: [ 'Execution' ],
+  path: 'documents'
+});
+
 
 _Document.defaultColumns = 'title, usage, status, meta.publishedAt';
 _Document.register();
