@@ -19,7 +19,7 @@ var Collection = new keystone.List('Collection', {
 });
 
 Collection.add({
-  title: { type: Types.Text, required: true },
+  title: { type: Types.Text },
   description: {
     brief: { type: Types.Markdown },
     extended: { type: Types.Markdown }
