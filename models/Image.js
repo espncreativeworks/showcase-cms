@@ -25,7 +25,7 @@ _Image.add({
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
   caption: { type: Types.Markdown },
   credit: { type: Types.Markdown },
-  usage: { type: Types.Select, options: 'icon, cover, execution, headshot, hero, logo, poster, thumbnail, other', required: true, initial: true, index: true },
+  usage: { type: Types.Select, options: 'icon, cover, execution, headshot, hero, logo, poster, thumbnail, facebook, twitter, other', required: true, initial: true, index: true },
   execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
   platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
   people: { type: Types.Relationship, ref: 'Person', many: true },
