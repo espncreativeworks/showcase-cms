@@ -94,7 +94,7 @@ _Document.schema.pre('save', function(next) {
 
 removeFromRelated.add({ 
   list: _Document, 
-  related: [ 'Execution' ],
+  related: [ 'Execution', 'CollectionItem' ],
   path: 'documents'
 });
 

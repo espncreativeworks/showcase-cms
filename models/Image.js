@@ -95,7 +95,7 @@ _Image.schema.pre('save', function(next) {
 
 removeFromRelated.add({ 
   list: _Image, 
-  related: [ 'Execution' ],
+  related: [ 'Execution', 'CollectionItem' ],
   path: 'images'
 });
 

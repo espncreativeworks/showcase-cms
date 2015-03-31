@@ -21,14 +21,12 @@ var Collection = new keystone.List('Collection', {
 
 Collection.add({
   title: { type: Types.Text },
-  description: {
-    brief: { type: Types.Markdown },
-    extended: { type: Types.Markdown }
-  },
   creator: { type: Types.Relationship, ref: 'Account' }, 
   items: { type: Types.Relationship, ref: 'CollectionItem', many: true, filters: { belongsTo: ':_id' } },
-  status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  visibility: { type: Types.Select, options: 'public, private', default: 'public', index: true }
+  status: { type: Types.Select, options: 'draft, published, archived', default: 'published', index: true },
+  visibility: { type: Types.Select, options: 'public, private', default: 'public', index: true },
+  isPopular: { type: Types.Boolean, default: false },
+  isStaffPick: { type: Types.Boolean, default: false }
 });
 
 meta.add({ list: Collection });

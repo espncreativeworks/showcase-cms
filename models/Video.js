@@ -157,7 +157,7 @@ Video.schema.pre('save', function(next) {
 
 removeFromRelated.add({ 
   list: Video, 
-  related: [ 'Execution' ],
+  related: [ 'Execution', 'CollectionItem' ],
   path: 'videos'
 });
 
