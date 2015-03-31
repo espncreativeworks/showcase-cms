@@ -42,32 +42,6 @@ function showCollection(req, res){
   });
 }
 
-function showCollectionExecutions(req, res){
-  var key = req.params.key
-    , doc = utils.queries.defaults.show(key)
-    , q;
-  
-  q = Collection.findOne(doc).populate('items');
-  
-  q.exec().then(function (collection){
-    if (collection){
-      var _q = Execution.find().in('_id', collection.items.map(function (item){ return item.execution; }));
-      _q = utils.relationships.populate(Execution, _q, req);
-      return _q.exec();
-    } else {
-      utils.errors.notFound(res, []);
-    }
-  }).then(function (executions){
-    if (executions){
-      res.status(200).json(executions);
-    } else {
-      utils.errors.notFound(res, []);
-    }
-  }, function (err){
-    utils.errors.internal(res, err);
-  });
-}
-
 function createCollection(req, res){
   var doc = req.body
     , q;
@@ -150,7 +124,6 @@ function destroyCollection (req, res){
 exports = module.exports = {
   list: listCollections,
   show: showCollection,
-  executions: showCollectionExecutions,
   create: createCollection,
   update: updateCollection,
   destroy: destroyCollection

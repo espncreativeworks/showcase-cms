@@ -4,7 +4,8 @@ var keystone = require('keystone')
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
   , removeRelatedChild = require('../lib/hooks/removeRelatedChild')
   , statics = require('../lib/statics')
-  , methods = require('../lib/methods');
+  , methods = require('../lib/methods')
+  , _ = require('underscore');
 
 /**
  * Collection Model
