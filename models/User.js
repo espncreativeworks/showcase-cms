@@ -52,6 +52,77 @@ methods.toJSON.set({
   omit: ['__v', 'password']
 });
 
+User.schema.methods.sendNotificationEmail = function (callback) {
+  
+  if ('function' !== typeof callback) {
+    callback = function() {};
+  }
+
+  if ('production' === process.env.NODE_ENV || 'staging' === process.env.NODE_ENV) {
+    var path
+      , user
+      , options
+      , baseCmsUrl
+      , cms
+      , email;
+
+    path = require('path');
+    user = this;
+
+    options = {
+      templateExt: 'hbs',
+      templateEngine: require('handlebars'),
+      templateBasePath: path.normalize(path.join(__dirname, '..', 'templates', 'emails')),
+      templateName: 'new-user-notification'
+    };
+
+    cms = {
+      title: process.env.NODE_ENV === 'production' ? 'cms.espncreativeworks.com' : 'showcase-cms-stg.herokuapp.com'
+    };
+
+    email = new keystone.Email(options);
+    email.send({
+      to: user,
+      from: {
+        name: keystone.get('name'),
+        email: 'creativeworks@espn.com'
+      },
+      subject: 'New Account Created at ' + keystone.get('name'),
+      user: user,
+      cms: cms
+    }, callback);
+  } else {
+    callback.call();
+  }
+
+};
+
+
+// Pre-validate Hooks
+// ------------------------------
+
+User.schema.pre('validate', function(next) {
+  this.plainTextPassword = this.password + ''; // make a copy
+  next();
+});
+
+// Pre-save Hooks
+// ------------------------------
+
+User.schema.pre('save', function(next) {
+  this.wasNew = this.isNew;
+  next();
+});
+
+// Post-save Hooks
+// ------------------------------
+
+User.schema.post('save', function() {
+  if (this.wasNew) {
+    this.sendNotificationEmail();
+  }
+});
+
 
 // Relationships
 // ------------------------------

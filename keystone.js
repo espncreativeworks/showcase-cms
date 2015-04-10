@@ -7,11 +7,19 @@ var keystone = require('keystone')
 	, handlebars = require('express-handlebars')
 	, raygun = require('raygun')
 	, raygunClient = new raygun.Client().init({ apiKey: process.env.RAYGUN_APIKEY })
-	, appName = 'Showcase';
+	, appName = 'Showcase'
+	, cmsUrl = 'http://localhost:3000/keystone/';
 
 if ('production' !== process.env.NODE_ENV){
 	appName += ' (' + process.env.NODE_ENV + ')';
+	cmsUrl = 'https://cms.espncreativeworks.com/keystone/'
 }
+
+if ('staging' !== process.env.NODE_ENV){
+	cmsUrl = 'https://showcase-cms-stg.herokuapp.com/keystone/'
+}
+
+
 
 // Initialise Keystone with your project's configuration.
 // See http://keystonejs.com/guide/config for available options
@@ -98,10 +106,10 @@ keystone.set('email locals', {
 
 keystone.set('email rules', [{
 	find: '/images/',
-	replace: (keystone.get('env') === 'production') ? 'http://www.your-server.com/images/' : 'http://localhost:3000/images/'
+	replace: (keystone.get('env') === 'production') ? 'http://cms.espncreativeworks/images/' : 'http://localhost:3000/images/'
 }, {
 	find: '/keystone/',
-	replace: (keystone.get('env') === 'production') ? 'http://www.your-server.com/keystone/' : 'http://localhost:3000/keystone/'
+	replace: cmsUrl
 }]);
 
 // Load your project's email test routes

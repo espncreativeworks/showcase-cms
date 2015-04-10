@@ -58,7 +58,7 @@ Collection.schema.pre('save', function(next) {
           if (err){
             return next(err);
           } 
-          next()
+          next();
         });
       } else {
         next();
