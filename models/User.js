@@ -58,11 +58,10 @@ User.schema.methods.sendNotificationEmail = function (callback) {
     callback = function() {};
   }
 
-  if ('production' === process.env.NODE_ENV || 'staging' === process.env.NODE_ENV) {
+  if ('production' === process.env.NODE_ENV) {
     var path
       , user
       , options
-      , baseCmsUrl
       , cms
       , email;
 

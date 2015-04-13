@@ -19,11 +19,11 @@ if ('production' === process.env.NODE_ENV){
 }
 
 if ('staging' === process.env.NODE_ENV){
-	cmsUrl = 'https://showcase-cms-stg.herokuapp.com/keystone/'
+	cmsUrl = 'https://showcase-cms-stg.herokuapp.com/keystone/';
 }
 
 if ('development' === process.env.NODE_ENV){
-	cmsUrl = 'http://localhost:3000/keystone/'
+	cmsUrl = 'http://localhost:3000/keystone/';
 }
 
 

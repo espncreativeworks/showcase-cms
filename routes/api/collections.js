@@ -2,7 +2,6 @@ var keystone = require('keystone')
   , _ = require('underscore')
   , Q = require('q')
   , Collection = keystone.list('Collection').model
-  , Execution = keystone.list('Execution').model
   , utils = require('../utils/');
 
 function listCollections(req, res){

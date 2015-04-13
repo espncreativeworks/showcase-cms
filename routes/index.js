@@ -137,6 +137,7 @@ exports = module.exports = function(app) {
   // projects
   app.get('/api/projects', routes.api.projects.list);
   app.get('/api/projects/featured', routes.api.projects.featured);
+  app.get('/api/projects/search', routes.api.projects.search);
   // app.post('/api/projects', routes.api.projects.create);
   app.get('/api/projects/:key', routes.api.projects.show);
   app.get('/api/projects/:key/tags', routes.api.projects.tags);
