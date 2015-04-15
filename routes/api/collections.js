@@ -12,7 +12,7 @@ function listCollections(req, res){
   q = utils.relationships.populate(Collection, q, req);
 
   q.exec().then(function(collections){
-    if (collections){
+    if (collections.length){
       res.status(200).json(collections);  
     } else {
       utils.errors.notFound(res, []);

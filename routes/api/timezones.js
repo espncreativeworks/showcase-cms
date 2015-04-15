@@ -9,7 +9,11 @@ function listTimezones(req, res){
   q = Timezone.find(doc);
 
   q.exec().then(function(timezones){
-    res.status(200).json(timezones);
+    if (timezones.length){
+      res.status(200).json(timezones);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

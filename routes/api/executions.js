@@ -7,9 +7,14 @@ function listExecutions(req, res){
     , q;
 
   q = Execution.find(doc);
+  q.sort('sortOrder');
 
   q.exec().then(function(executions){
-    res.status(200).json(executions);
+    if (executions.length){
+      res.status(200).json(executions);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

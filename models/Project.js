@@ -12,7 +12,8 @@ var Project = new keystone.List('Project', {
   map: { name: 'title' },
   autokey: { path: 'slug', from: 'title', unique: true },
   track: true,
-  searchFields: 'name, tagline, meta.keywords'
+  searchFields: 'name, tagline, meta.keywords',
+  sortable: true
 });
 
 Project.add({
@@ -22,9 +23,9 @@ Project.add({
     brief: { type: Types.Markdown },
     extended: { type: Types.Markdown }
   },
+  highlights: { type: Types.Markdown },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
   isFeatured: { type: Types.Boolean, default: false },
-  highlights: { type: Types.Markdown },
   brands: { type: Types.Relationship, ref: 'Brand', many: true },
   executions: { type: Types.Relationship, ref: 'Execution', many: true },
   sports: { type: Types.Relationship, ref: 'Sport', many: true },

@@ -7,9 +7,14 @@ function listDocuments(req, res){
     , q;
 
   q = _Document.find(doc);
+  q.sort('sortOrder');
 
   q.exec().then(function(_documents){
-    res.status(200).json(_documents);
+    if (_documents.length){
+      res.status(200).json(_documents);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

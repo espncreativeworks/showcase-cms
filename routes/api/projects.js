@@ -14,9 +14,10 @@ function listProjects(req, res){
 
   q = Project.find(doc);
   q = utils.relationships.populate(Project, q, req);
+  q.sort('sortOrder');
 
   q.exec().then(function(projects){
-    if (projects){
+    if (projects.length){
       res.status(200).json(projects);  
     } else {
       utils.errors.notFound(res, []);
@@ -34,7 +35,7 @@ function searchProjects(req, res){
 
   q = Project.find(doc);  
   q.select('-__v -description -related -meta -highlights -createdBy -createdAt -updatedBy');
-  q.sort('-updatedAt');
+  q.sort('sortOrder');
   q.populate({ 
     path: 'brands',
     select: '-__v -description -related -meta -social -createdBy -createdAt -updatedBy -updatedAt'

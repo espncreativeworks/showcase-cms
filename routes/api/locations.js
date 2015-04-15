@@ -10,7 +10,11 @@ function listLocations(req, res){
   q = utils.relationships.populate(Location, q, req);
   
   q.exec().then(function(locations){
-    res.status(200).json(locations);
+    if (locations.length){
+      res.status(200).json(locations);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });
