@@ -9,7 +9,11 @@ function listBrands(req, res){
   q = Brand.find(doc);
 
   q.exec().then(function(brands){
-    res.status(200).json(brands);
+    if (brands.length){
+      res.status(200).json(brands);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

@@ -9,7 +9,11 @@ function listVideos(req, res){
   q = Video.find(doc);
 
   q.exec().then(function(videos){
-    res.status(200).json(videos);
+    if (videos.length){
+      res.status(200).json(videos);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

@@ -9,7 +9,11 @@ function listExecutionTags(req, res){
   q = ExecutionTag.find(doc);
 
   q.exec().then(function(executionTags){
-    res.status(200).json(executionTags);
+    if (executionTags.length){
+      res.status(200).json(executionTags);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

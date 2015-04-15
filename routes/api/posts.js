@@ -9,7 +9,11 @@ function listPosts(req, res){
   q = Post.find(doc);
 
   q.exec().then(function(posts){
-    res.status(200).json(posts);
+    if (posts.length){
+      res.status(200).json(posts);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

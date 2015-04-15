@@ -9,7 +9,11 @@ function listPeople(req, res){
   q = Person.find(doc);
 
   q.exec().then(function(people){
-    res.status(200).json(people);
+    if (people.length){
+      res.status(200).json(people);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

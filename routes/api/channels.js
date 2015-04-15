@@ -9,7 +9,11 @@ function listChannels(req, res){
   q = Channel.find(doc);
 
   q.exec().then(function(channels){
-    res.status(200).json(channels);
+    if (channels.length){
+      res.status(200).json(channels);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

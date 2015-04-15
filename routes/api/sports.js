@@ -9,7 +9,11 @@ function listSports(req, res){
   q = Sport.find(doc);
 
   q.exec().then(function(sports){
-    res.status(200).json(sports);
+    if (sports.length){
+      res.status(200).json(sports);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

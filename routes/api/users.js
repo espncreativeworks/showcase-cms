@@ -9,7 +9,11 @@ function listUsers(req, res){
   q = User.find(doc);
 
   q.exec().then(function(users){
-    res.status(200).json(users);
+    if (users.length){
+      res.status(200).json(users);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

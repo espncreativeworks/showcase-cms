@@ -9,7 +9,11 @@ function listPostTags(req, res){
   q = PostTag.find(doc);
 
   q.exec().then(function(postTags){
-    res.status(200).json(postTags);
+    if (postTags.length){
+      res.status(200).json(postTags);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

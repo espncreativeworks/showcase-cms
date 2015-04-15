@@ -16,7 +16,7 @@ function listProjects(req, res){
   q = utils.relationships.populate(Project, q, req);
 
   q.exec().then(function(projects){
-    if (projects){
+    if (projects.length){
       res.status(200).json(projects);  
     } else {
       utils.errors.notFound(res, []);

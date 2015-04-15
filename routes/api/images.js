@@ -9,7 +9,11 @@ function listImages(req, res){
   q = _Image.find(doc);
 
   q.exec().then(function(images){
-    res.status(200).json(images);
+    if (images.length){
+      res.status(200).json(images);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });
