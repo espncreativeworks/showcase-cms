@@ -7,6 +7,7 @@ function listBrands(req, res){
     , q;
 
   q = Brand.find(doc);
+  q.sort('sortOrder');
 
   q.exec().then(function(brands){
     if (brands.length){

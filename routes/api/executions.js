@@ -7,6 +7,7 @@ function listExecutions(req, res){
     , q;
 
   q = Execution.find(doc);
+  q.sort('sortOrder');
 
   q.exec().then(function(executions){
     if (executions.length){

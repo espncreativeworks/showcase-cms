@@ -7,7 +7,8 @@ function listIndustries(req, res){
     , q;
 
   q = Industry.find(doc);
-
+  q.sort('sortOrder');
+  
   q.exec().then(function(industries){
     if (industries.length){
       res.status(200).json(industries);

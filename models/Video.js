@@ -15,7 +15,8 @@ var Video = new keystone.List('Video', {
   map: { name: 'title' },
   autokey: { path: 'slug', from: 'title', unique: true },
   track: true,
-  searchFields: 'name, meta.keywords'
+  searchFields: 'name, meta.keywords',
+  sortable: true
 });
 
 Video.add({

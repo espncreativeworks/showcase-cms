@@ -7,7 +7,8 @@ function listVideos(req, res){
     , q;
 
   q = Video.find(doc);
-
+  q.sort('sortOrder');
+  
   q.exec().then(function(videos){
     if (videos.length){
       res.status(200).json(videos);

@@ -14,6 +14,7 @@ var keystone = require('keystone')
 
 var Brand = new keystone.List('Brand', {
   autokey: { path: 'slug', from: 'name', unique: true },
+  sortable: true,
   track: true,
   searchFields: 'name, homepage, meta.keywords'
 });
