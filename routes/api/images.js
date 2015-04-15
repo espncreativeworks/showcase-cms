@@ -7,6 +7,7 @@ function listImages(req, res){
     , q;
 
   q = _Image.find(doc);
+  q.sort('sortOrder');
 
   q.exec().then(function(images){
     res.status(200).json(images);

@@ -12,7 +12,8 @@ var keystone = require('keystone')
 
 var _Document = new keystone.List('Document', {
   map: { name: 'title' },
-  autokey: { path: 'slug', from: 'title', unique: true }
+  autokey: { path: 'slug', from: 'title', unique: true },
+  sortable: true
 });
 
 _Document.add({

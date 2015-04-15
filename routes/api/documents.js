@@ -7,6 +7,7 @@ function listDocuments(req, res){
     , q;
 
   q = _Document.find(doc);
+  q.sort('sortOrder');
 
   q.exec().then(function(_documents){
     res.status(200).json(_documents);

@@ -12,6 +12,7 @@ var keystone = require('keystone')
 var Sport = new keystone.List('Sport', {
   autokey: { path: 'slug', from: 'name', unique: true },
   track: true,
+  sortable: true,
   searchFields: 'name, meta.keywords'
 });
 
