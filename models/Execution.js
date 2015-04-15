@@ -11,6 +11,7 @@ var keystone = require('keystone')
 
 var Execution = new keystone.List('Execution', {
   autokey: { path: 'slug', from: 'name', unique: true },
+  sortable: true,
   track: true
 });
 

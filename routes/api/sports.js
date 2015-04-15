@@ -7,6 +7,7 @@ function listSports(req, res){
     , q;
 
   q = Sport.find(doc);
+  q.sort('sortOrder');
 
   q.exec().then(function(sports){
     res.status(200).json(sports);

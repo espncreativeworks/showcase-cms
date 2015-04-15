@@ -12,7 +12,8 @@ var keystone = require('keystone')
 
 var _Image = new keystone.List('Image', {
   map: { name: 'title' },
-  autokey: { path: 'slug', from: 'title', unique: true }
+  autokey: { path: 'slug', from: 'title', unique: true },
+  sortable: true
 });
 
 _Image.add({
