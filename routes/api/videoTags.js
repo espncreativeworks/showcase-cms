@@ -9,7 +9,11 @@ function listVideoTags(req, res){
   q = VideoTag.find(doc);
 
   q.exec().then(function(videoTags){
-    res.status(200).json(videoTags);
+    if (videoTags.length){
+      res.status(200).json(videoTags);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

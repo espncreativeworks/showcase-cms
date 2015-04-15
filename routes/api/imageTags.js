@@ -9,7 +9,11 @@ function listImageTags(req, res){
   q = ImageTag.find(doc);
 
   q.exec().then(function(imageTags){
-    res.status(200).json(imageTags);
+    if (imageTags.length){
+      res.status(200).json(imageTags);  
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

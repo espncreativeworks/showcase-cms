@@ -1,8 +1,10 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
+  , meta = require('../lib/meta')
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
   , statics = require('../lib/statics')
-  , methods = require('../lib/methods');
+  , methods = require('../lib/methods')
+  , _ = require('underscore');
 
 /**
  * CollectionItem Model
@@ -11,18 +13,59 @@ var keystone = require('keystone')
 
 var CollectionItem = new keystone.List('CollectionItem', {
   track: true,
-  searchFields: 'belongsTo, execution, notes'
+  searchFields: 'belongsTo, title, notes, images, videos, documents'
 });
 
 CollectionItem.add({
-  belongsTo: { type: Types.Relationship, ref: 'Collection', label: 'Collection' }, 
-  execution: { type: Types.Relationship, ref: 'Execution' },
-  notes: { type: Types.Textarea }
+  title: { type: Types.Text },
+  notes: { type: Types.Markdown },
+  belongsTo: { type: Types.Relationship, ref: 'Collection', label: 'Collection', required: true, initial: true }, 
+  images: { type: Types.Relationship, ref: 'Image', many: true },
+  videos: { type: Types.Relationship, ref: 'Video', many: true },
+  documents: { type: Types.Relationship, ref: 'Document', many: true }
 });
+
+meta.add({ list: CollectionItem });
 
 // Virtuals
 // ------------------------------
 
+// Pre Save
+// ------------------------------
+
+// TODO: refactor to abstracted module
+CollectionItem.schema.pre('save', function(next) {
+  var collectionItem = this
+    , Collection = keystone.list('Collection').model
+    , q;
+
+  // if collectionItem has a belongsTo, add to it's collectionItems...
+  if (collectionItem.belongsTo){
+    q = Collection.findOne({ _id: collectionItem.belongsTo });
+    q.exec().then(function (collection){
+      // if the collectionItem isn't assigned to the collection.collectionItems, add it
+      var collectionItemIds = _.map(collection.items, function (collectionItemId){
+        return collectionItemId.toString();
+      });
+
+      if (!_.contains(collectionItemIds, collectionItem._id.toString())){
+        collection.items.push(collectionItem._id);
+        collection.save(function (err){
+          if (err){
+            return next(err);
+          } 
+          next();
+        });
+      } else {
+        next();
+      }
+    }, function (err){
+      next(err);
+    });
+  } else {
+    next();
+  }
+});
 
 // Post Remove
 // ------------------------------
@@ -38,7 +81,7 @@ removeFromRelated.add({
 
 statics.findOrCreate.add({ 
   list: CollectionItem, 
-  validKeys: [ 'belongsTo', 'execution', 'notes' ] 
+  validKeys: [ 'belongsTo', 'title', 'notes', 'videos', 'images', 'documents', 'note' ] 
 });
 
 
@@ -50,7 +93,7 @@ methods.toJSON.set({
 });
 
 CollectionItem.defaultSort = '-createdAt';
-CollectionItem.defaultColumns = '_id, belongsTo, execution, notes';
+CollectionItem.defaultColumns = '_id, belongsTo, modifiedAt';
 CollectionItem.register();
 
 

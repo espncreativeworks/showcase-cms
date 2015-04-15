@@ -2,7 +2,8 @@ var keystone = require('keystone')
   , Types = keystone.Field.Types
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
   , meta = require('../lib/meta')
-  , methods = require('../lib/methods');
+  , methods = require('../lib/methods')
+  , _ = require('underscore');
 
 /**
  * Image Model
@@ -24,7 +25,8 @@ _Image.add({
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
   caption: { type: Types.Markdown },
   credit: { type: Types.Markdown },
-  usage: { type: Types.Select, options: 'icon, cover, execution, headshot, hero, logo, poster, thumbnail, other', required: true, initial: true, index: true },
+  usage: { type: Types.Select, options: 'icon, cover, execution, headshot, hero, logo, poster, thumbnail, facebook, twitter, other', required: true, initial: true, index: true },
+  execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
   platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
   people: { type: Types.Relationship, ref: 'Person', many: true },
   tags: { type: Types.Relationship, ref: 'ImageTag', many: true },
@@ -54,12 +56,46 @@ _Image.schema.pre('save', function(next) {
   next();
 });
 
+// TODO: refactor to abstracted module
+_Image.schema.pre('save', function(next) {
+  var image = this
+    , Execution = keystone.list('Execution').model
+    , q;
+
+  // if image is an execution and the execution has been set...
+  if (image.usage === 'execution' && image.execution){
+    q = Execution.findOne({ _id: image.execution });
+    q.exec().then(function (execution){
+      // if the image isn't assigned to the execution.videos, add it
+      var imageIds = _.map(execution.images, function (imageId){
+        return imageId.toString();
+      });
+
+      if (!_.contains(imageIds, image._id.toString())){
+        execution.images.push(image._id);
+        execution.save(function (err){
+          if (err){
+            return next(err);
+          } 
+          next();
+        });
+      } else {
+        next();
+      }
+    }, function (err){
+      next(err);
+    });
+  } else {
+    next();
+  }
+});
+
 // Post Remove
 // ------------------------------
 
 removeFromRelated.add({ 
   list: _Image, 
-  related: [ 'Execution' ],
+  related: [ 'Execution', 'CollectionItem' ],
   path: 'images'
 });
 

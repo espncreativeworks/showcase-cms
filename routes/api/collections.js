@@ -2,7 +2,6 @@ var keystone = require('keystone')
   , _ = require('underscore')
   , Q = require('q')
   , Collection = keystone.list('Collection').model
-  , Execution = keystone.list('Execution').model
   , utils = require('../utils/');
 
 function listCollections(req, res){
@@ -13,7 +12,7 @@ function listCollections(req, res){
   q = utils.relationships.populate(Collection, q, req);
 
   q.exec().then(function(collections){
-    if (collections){
+    if (collections.length){
       res.status(200).json(collections);  
     } else {
       utils.errors.notFound(res, []);
@@ -36,32 +35,6 @@ function showCollection(req, res){
       res.status(200).json(collection);  
     } else {
       utils.errors.notFound(res, {});
-    }
-  }, function (err){
-    utils.errors.internal(res, err);
-  });
-}
-
-function showCollectionExecutions(req, res){
-  var key = req.params.key
-    , doc = utils.queries.defaults.show(key)
-    , q;
-  
-  q = Collection.findOne(doc).populate('items');
-  
-  q.exec().then(function (collection){
-    if (collection){
-      var _q = Execution.find().in('_id', collection.items.map(function (item){ return item.execution; }));
-      _q = utils.relationships.populate(Execution, _q, req);
-      return _q.exec();
-    } else {
-      utils.errors.notFound(res, []);
-    }
-  }).then(function (executions){
-    if (executions){
-      res.status(200).json(executions);
-    } else {
-      utils.errors.notFound(res, []);
     }
   }, function (err){
     utils.errors.internal(res, err);
@@ -150,7 +123,6 @@ function destroyCollection (req, res){
 exports = module.exports = {
   list: listCollections,
   show: showCollection,
-  executions: showCollectionExecutions,
   create: createCollection,
   update: updateCollection,
   destroy: destroyCollection

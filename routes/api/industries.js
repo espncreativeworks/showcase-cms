@@ -9,7 +9,11 @@ function listIndustries(req, res){
   q = Industry.find(doc);
 
   q.exec().then(function(industries){
-    res.status(200).json(industries);
+    if (industries.length){
+      res.status(200).json(industries);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

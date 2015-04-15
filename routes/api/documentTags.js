@@ -9,7 +9,11 @@ function listDocumentTags(req, res){
   q = DocumentTag.find(doc);
 
   q.exec().then(function(documentTags){
-    res.status(200).json(documentTags);
+    if (documentTags.length){
+      res.status(200).json(documentTags);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

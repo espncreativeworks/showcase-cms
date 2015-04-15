@@ -1,0 +1,13 @@
+<div class="message-body">
+  <h1>Hi, {{user.name.first}}!</h1> 
+  <p>An account has been created for you at <a href="/keystone/users/{{user._id}}" title="{{cms.title}}">{{cms.title}}</a>. Use the credentials below to log in. After you've logged in, be sure to change your password!</p>
+</div>
+<div class="message-details">
+  <ul>
+    <li><strong>Email</strong>: {{user.email}}</li>
+    <li><strong>Password</strong>: {{user.plainTextPassword}}</li>
+  </ul>
+</div>
+<div class="message-footer">
+  <p>Thanks!</p>
+</div>

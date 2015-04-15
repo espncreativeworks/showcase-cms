@@ -1,7 +1,8 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
   , meta = require('../lib/meta')
-  , methods = require('../lib/methods');
+  , methods = require('../lib/methods')
+  , removeRelatedChild = require('../lib/hooks/removeRelatedChild');
 
 /**
  * Execution Model
@@ -36,6 +37,15 @@ meta.add({ list: Execution });
 
 methods.toJSON.set({ 
   list: Execution
+});
+
+// Post Remove
+// ------------------------------
+
+removeRelatedChild.add({ 
+  list: Execution, 
+  related: [ 'Image', 'Video', 'Document' ],
+  path: 'execution'
 });
 
 Execution.defaultColumns = 'name, status, meta.publishedAt';

@@ -11,7 +11,11 @@ function listPlatforms(req, res){
   q = utils.relationships.populate(Platform, q, req);
 
   q.exec().then(function(platforms){
-    res.status(200).json(platforms);
+    if (platforms.length){
+      res.status(200).json(platforms);
+    } else {
+      utils.errors.notFound(res, []);
+    }
   }, function (err){
     res.status(500).json({ name: err.name, message: err.message });
   });

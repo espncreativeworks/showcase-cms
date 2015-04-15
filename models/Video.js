@@ -1,7 +1,9 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
   , meta = require('../lib/meta')
-  , methods = require('../lib/methods');
+  , methods = require('../lib/methods')
+  , removeFromRelated = require('../lib/hooks/removeFromRelated')
+  , _ = require('underscore');
 
 
 /**
@@ -30,6 +32,7 @@ Video.add({
     index: true 
   },
   usage: { type: Types.Select, options: 'animation, execution, hero, poster, other', default: 'execution', required: true, initial: true, index: true },
+  execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
   platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
   people: { type: Types.Relationship, ref: 'Person', many: true },
@@ -108,6 +111,54 @@ Video.schema.virtual('description.full').get(function() {
 
 methods.toJSON.set({ 
   list: Video
+});
+
+
+// Pre Save
+// ------------------------------
+
+// TODO: refactor to abstracted module
+Video.schema.pre('save', function(next) {
+  var video = this
+    , Execution = keystone.list('Execution').model
+    , q;
+
+  // if video is an execution and the execution has been set...
+  if (video.usage === 'execution' && video.execution){
+    q = Execution.findOne({ _id: video.execution });
+    q.exec().then(function (execution){
+      // if the video isn't assigned to the execution.videos, add it
+      var videoIds = _.map(execution.videos, function (videoId){
+        return videoId.toString();
+      });
+
+      if (!_.contains(videoIds, video._id.toString())){
+        execution.videos.push(video._id);
+        execution.save(function (err){
+          if (err){
+            return next(err);
+          } 
+          next();
+        });
+      } else {
+        next();
+      }
+    }, function (err){
+      next(err);
+    });
+  } else {
+    next();
+  }
+});
+
+
+// Post Remove
+// ------------------------------
+
+removeFromRelated.add({ 
+  list: Video, 
+  related: [ 'Execution', 'CollectionItem' ],
+  path: 'videos'
 });
 
 
