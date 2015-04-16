@@ -173,6 +173,7 @@ function featuredProjects(req, res){
 
   q = Project.find(doc);
   q = utils.relationships.populate(Project, q, req);
+  q.sort('sortOrder');
 
   q.exec().then(function(projects){
     if (projects){
