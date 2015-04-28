@@ -3,7 +3,7 @@ var keystone = require('keystone')
   , utils = require('../utils/');
 
 function listImageTags(req, res){
-  var doc = utils.queries.defaults.list()
+  var doc = utils.queries.defaults.list({ status: false })
     , q;
 
   q = ImageTag.find(doc);

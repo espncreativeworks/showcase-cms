@@ -3,7 +3,7 @@ var keystone = require('keystone')
   , utils = require('../utils/');
 
 function listDocumentTags(req, res){
-  var doc = utils.queries.defaults.list()
+  var doc = utils.queries.defaults.list({ status: false })
     , q;
 
   q = DocumentTag.find(doc);

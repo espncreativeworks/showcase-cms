@@ -1,17 +1,21 @@
 exports = module.exports = {
   defaults: {
-    list: function (){
-      var doc = { 
-        $and: [ 
+    list: function (opts){
+      var doc = {};
+      opts = opts || {};
+
+      if (!('status' in opts) || opts.status === true){
+        doc.$and = [ 
           { $or: [ { status: 'published' }, { status: 'archived' } ] }
-        ] 
-      };
+        ];
+      }
+      
       return doc;
     },
     show: function (key){
       var doc = { 
         $and: [ 
-          { $or: [ { slug: key } ] }, 
+          { $or: [ { slug: key }, { 'meta.slug': key } ] }, 
           { $or: [ { status: 'published' }, { status: 'archived' } ] } 
         ] 
       };
