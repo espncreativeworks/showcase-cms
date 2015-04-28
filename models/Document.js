@@ -29,17 +29,17 @@ _Document.add({
   },
   title: { type: String, required: true, initial: true },
   description: {
-    brief: { type: Types.Markdown },
-    extended: { type: Types.Markdown }
+    brief: { type: Types.Markdown, collapse: true },
+    extended: { type: Types.Markdown, collapse: true }
   },
   usage: { type: Types.Select, options: 'execution, email, other', default: 'execution', required: true, initial: true, index: true },
   execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
   platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
   thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' } },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  people: { type: Types.Relationship, ref: 'Person', many: true },
-  tags: { type: Types.Relationship, ref: 'DocumentTag', many: true },
-  related: { type: Types.Relationship, ref: 'Document', many: true }
+  people: { type: Types.Relationship, ref: 'Person', many: true, collapse: true },
+  tags: { type: Types.Relationship, ref: 'DocumentTag', many: true, collapse: true },
+  related: { type: Types.Relationship, ref: 'Document', many: true, collapse: true }
 });
 
 meta.add({ list: _Document });

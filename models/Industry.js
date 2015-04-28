@@ -16,13 +16,13 @@ var Industry = new keystone.List('Industry', {
 Industry.add({
   name: { type: String, required: true },
   description: {
-    brief: { type: Types.Markdown },
-    extended: { type: Types.Markdown }
+    brief: { type: Types.Markdown, collapse: true },
+    extended: { type: Types.Markdown, collapse: true }
   },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  related: { type: Types.Relationship, ref: 'Industry', many: true }
+  related: { type: Types.Relationship, ref: 'Industry', many: true, collapse: true }
 }, 'Images', {
-  icon: { type: Types.Relationship, ref: 'Image' }
+  icon: { type: Types.Relationship, ref: 'Image', collapse: true }
 });
 
 meta.add({ list: Industry });

@@ -19,6 +19,8 @@ var Project = new keystone.List('Project', {
 Project.add({
   title: { type: String, required: true },
   tagline: { type: String },
+  startDate: { type: Types.Date },
+  endDate: { type: Types.Date },
   description: {
     brief: { type: Types.Markdown },
     extended: { type: Types.Markdown }
@@ -32,8 +34,8 @@ Project.add({
   related: { type: Types.Relationship, ref: 'Project', many: true }
 }, 'Images', {
   hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' } },
-  thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' } },
-  logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' } }
+  thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' }, collapse: true },
+  logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' }, collapse: true }
 });
 
 meta.add({ list: Project });
@@ -49,7 +51,7 @@ methods.toJSON.set({
   list: Project
 });
 
-Project.defaultColumns = 'title, status|20%, meta.publishedAt';
+Project.defaultColumns = 'title, status, startDate, endDate, meta.publishedAt';
 Project.register();
 
 

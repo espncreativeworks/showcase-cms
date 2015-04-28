@@ -17,12 +17,13 @@ var CollectionItem = new keystone.List('CollectionItem', {
 });
 
 CollectionItem.add({
-  title: { type: Types.Text },
-  notes: { type: Types.Markdown },
+  title: { type: Types.Text, collapse: true },
+  notes: { type: Types.Markdown, collapse: true },
   belongsTo: { type: Types.Relationship, ref: 'Collection', label: 'Collection', required: true, initial: true }, 
-  images: { type: Types.Relationship, ref: 'Image', many: true },
-  videos: { type: Types.Relationship, ref: 'Video', many: true },
-  documents: { type: Types.Relationship, ref: 'Document', many: true }
+}, 'Content', {
+  images: { type: Types.Relationship, ref: 'Image', many: true, collapse: true },
+  videos: { type: Types.Relationship, ref: 'Video', many: true, collapse: true },
+  documents: { type: Types.Relationship, ref: 'Document', many: true, collapse: true }
 });
 
 meta.add({ list: CollectionItem });

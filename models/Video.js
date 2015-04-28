@@ -36,9 +36,9 @@ Video.add({
   execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
   platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  people: { type: Types.Relationship, ref: 'Person', many: true },
-  tags: { type: Types.Relationship, ref: 'VideoTag', many: true },
-  related: { type: Types.Relationship, ref: 'Video', many: true }
+  people: { type: Types.Relationship, ref: 'Person', many: true, collapse: true },
+  tags: { type: Types.Relationship, ref: 'VideoTag', many: true, collapse: true },
+  related: { type: Types.Relationship, ref: 'Video', many: true, collapse: true }
 }, 
 { heading: 'YouTube', dependsOn: { host: 'youtube' } }, 
 {
@@ -64,7 +64,7 @@ Video.add({
     embed: { type: Types.Embedly, from: 'espn.url', dependsOn: { host: 'espn' } }
   }
 }, 'Overrides', {
-  title: { type: String },
+  title: { type: String, collapse: true },
   description: {
     brief: { type: Types.Markdown, collapse: true },
     extended: { type: Types.Markdown, collapse: true }

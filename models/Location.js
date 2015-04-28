@@ -33,15 +33,15 @@ Location.add({
   phone: { type: Types.Text, note: 'e.g., 212-456-3654', validate: phoneValidators },
   email: { type: Types.Email },
   description: {
-    brief: { type: Types.Markdown },
-    extended: { type: Types.Markdown }
+    brief: { type: Types.Markdown, collapse: true },
+    extended: { type: Types.Markdown, collapse: true }
   },
   timezone: { type: Types.Relationship, ref: 'Timezone', filters: { group: 'US (Common)' } },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true }
 }, 'Images', {
-  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' } },
-  thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' } },
-  logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' } }
+  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' }, collapse: true },
+  thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' }, collapse: true },
+  logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' }, collapse: true }
 });
 
 meta.add({ list: Location });

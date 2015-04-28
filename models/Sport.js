@@ -19,16 +19,16 @@ var Sport = new keystone.List('Sport', {
 Sport.add({
   name: { type: String, required: true },
   description: {
-    brief: { type: Types.Markdown },
-    extended: { type: Types.Markdown }
+    brief: { type: Types.Markdown, collapse: true },
+    extended: { type: Types.Markdown, collapse: true }
   },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  related: { type: Types.Relationship, ref: 'Sport', many: true }
+  related: { type: Types.Relationship, ref: 'Sport', many: true, collapse: true }
 }, 'Images', {
-  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' } },
-  thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' } },
-  logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' } },
-  icon: { type: Types.Relationship, ref: 'Image', filters: { usage: 'icon' } }
+  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' }, collapse: true },
+  thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' }, collapse: true },
+  logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' }, collapse: true },
+  icon: { type: Types.Relationship, ref: 'Image', filters: { usage: 'icon' }, collapse: true }
 });
 
 meta.add({ list: Sport });

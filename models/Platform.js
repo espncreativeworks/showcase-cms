@@ -18,14 +18,14 @@ var Platform = new keystone.List('Platform', {
 Platform.add({
   name: { type: String, required: true },
   description: {
-    brief: { type: Types.Markdown },
-    extended: { type: Types.Markdown }
+    brief: { type: Types.Markdown, collapse: true },
+    extended: { type: Types.Markdown, collapse: true }
   },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  related: { type: Types.Relationship, ref: 'Platform', many: true }
+  related: { type: Types.Relationship, ref: 'Platform', many: true, collapse: true }
 }, 'Images', {
-  icon: { type: Types.Relationship, ref: 'Image', filters: { usage: 'icon' } },
-  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' } }
+  icon: { type: Types.Relationship, ref: 'Image', filters: { usage: 'icon' }, collapse: true },
+  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' }, collapse: true }
 });
 
 meta.add({ list: Platform });

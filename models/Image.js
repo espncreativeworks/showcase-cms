@@ -20,18 +20,18 @@ _Image.add({
   file: { type: Types.CloudinaryImage, autocleanup: true, publicID: 'slug' },
   title: { type: String, required: true, initial: true },
   description: {
-    brief: { type: Types.Markdown },
-    extended: { type: Types.Markdown }
+    brief: { type: Types.Markdown, collapse: true },
+    extended: { type: Types.Markdown, collapse: true }
   },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  caption: { type: Types.Markdown },
-  credit: { type: Types.Markdown },
+  caption: { type: Types.Markdown, collapse: true },
+  credit: { type: Types.Markdown, collapse: true },
   usage: { type: Types.Select, options: 'icon, cover, execution, headshot, hero, logo, poster, thumbnail, facebook, twitter, other', required: true, initial: true, index: true },
   execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
   platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
-  people: { type: Types.Relationship, ref: 'Person', many: true },
-  tags: { type: Types.Relationship, ref: 'ImageTag', many: true },
-  related: { type: Types.Relationship, ref: 'Image', many: true }
+  people: { type: Types.Relationship, ref: 'Person', many: true, collapse: true },
+  tags: { type: Types.Relationship, ref: 'ImageTag', many: true, collapse: true },
+  related: { type: Types.Relationship, ref: 'Image', many: true, collapse: true }
 });
 
 meta.add({ list: _Image });

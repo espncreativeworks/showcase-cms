@@ -21,18 +21,18 @@ var Brand = new keystone.List('Brand', {
 
 Brand.add({
   name: { type: String, required: true },
-  homepage: { type: Types.Url },
+  homepage: { type: Types.Url, collapse: true },
   description: {
-    brief: { type: Types.Markdown },
-    extended: { type: Types.Markdown }
+    brief: { type: Types.Markdown, collapse: true },
+    extended: { type: Types.Markdown, collapse: true }
   },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
   industries: { type: Types.Relationship, ref: 'Industry', many: true },
-  related: { type: Types.Relationship, ref: 'Brand', many: true }
+  related: { type: Types.Relationship, ref: 'Brand', many: true, collapse: true }
 }, 'Images', {
-  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' } },
-  thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' } },
-  logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' } }
+  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' }, collapse: true },
+  thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' }, collapse: true },
+  logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' }, collapse: true }
 });
 
 meta.add({ list: Brand });
