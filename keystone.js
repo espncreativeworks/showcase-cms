@@ -38,7 +38,7 @@ keystone.init({
 	// 'brand': appName,
 
 	'name': 'ESPN CreativeWorks Showcase',
-	'brand': 'ESPN CreativeWorks Showcase',
+	'brand': 'Showcase CMS',
 	
 	'sass': 'public',
 	'static': 'public',
@@ -126,14 +126,16 @@ keystone.set('email tests', require('./routes/emails'));
 // Configure the navigation bar in Keystone's Admin UI
 
 keystone.set('nav', {
-	'core': ['projects', 'executions', 'platforms'],
-	'segments': ['platforms', 'sports', 'industries', 'channels'],
+	'projects': 'projects',
+	'executions': 'executions',
 	'media': ['images', 'videos', 'documents'],
 	'tags': ['image-tags', 'video-tags', 'document-tags', 'execution-tags'],
-	'blog': ['posts', 'post-tags'],
+	'segments': ['platforms', 'sports', 'industries', 'channels'],
+	// 'blog': ['posts', 'post-tags'],
 	// 'contact': 'enquiries',
-	'profiles': ['users', 'brands', 'people', 'locations'],
-	'accounts': ['accounts', 'collections', 'collection-items']
+	'profiles': ['accounts', 'brands', 'people', 'locations'],
+	'collections': ['collections', 'collection-items'],
+	'admin': ['users']
 });
 
 // Start Keystone to connect to your database and initialise the web server
