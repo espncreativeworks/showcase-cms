@@ -128,7 +128,7 @@ keystone.set('email tests', require('./routes/emails'));
 keystone.set('nav', {
 	'projects': 'projects',
 	'executions': 'executions',
-	'media': ['images', 'videos', 'documents'],
+	'media': ['videos', 'images', 'documents'],
 	'tags': ['image-tags', 'video-tags', 'document-tags', 'execution-tags'],
 	'segments': ['platforms', 'sports', 'industries', 'channels'],
 	// 'blog': ['posts', 'post-tags'],

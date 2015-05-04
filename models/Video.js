@@ -20,6 +20,7 @@ var Video = new keystone.List('Video', {
 });
 
 Video.add({
+  title: { type: String, required: true, initial: true },
   host: { 
     type: Types.Select, 
     options: [
@@ -64,7 +65,6 @@ Video.add({
     embed: { type: Types.Embedly, from: 'espn.url', dependsOn: { host: 'espn' } }
   }
 }, 'Overrides', {
-  title: { type: String, collapse: true },
   description: {
     brief: { type: Types.Markdown, collapse: true },
     extended: { type: Types.Markdown, collapse: true }
