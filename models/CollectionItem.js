@@ -13,7 +13,7 @@ var keystone = require('keystone')
 
 var CollectionItem = new keystone.List('CollectionItem', {
   track: true,
-  searchFields: 'belongsTo, title, notes, images, videos, documents'
+  searchFields: 'belongsTo, title, notes, image, video, document'
 });
 
 CollectionItem.add({
@@ -21,9 +21,9 @@ CollectionItem.add({
   notes: { type: Types.Markdown, collapse: true },
   belongsTo: { type: Types.Relationship, ref: 'Collection', label: 'Collection', required: true, initial: true }, 
 }, 'Content', {
-  images: { type: Types.Relationship, ref: 'Image', many: true, collapse: true },
-  videos: { type: Types.Relationship, ref: 'Video', many: true, collapse: true },
-  documents: { type: Types.Relationship, ref: 'Document', many: true, collapse: true }
+  image: { type: Types.Relationship, ref: 'Image', collapse: true },
+  video: { type: Types.Relationship, ref: 'Video', collapse: true },
+  document: { type: Types.Relationship, ref: 'Document', collapse: true }
 });
 
 meta.add({ list: CollectionItem });
@@ -82,7 +82,7 @@ removeFromRelated.add({
 
 statics.findOrCreate.add({ 
   list: CollectionItem, 
-  validKeys: [ 'belongsTo', 'title', 'notes', 'videos', 'images', 'documents', 'note' ] 
+  validKeys: [ 'belongsTo', 'title', 'notes', 'video', 'image', 'document' ] 
 });
 
 
