@@ -1,7 +1,8 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
   , crypto = require('crypto')
-  , authTypes = ['github', 'twitter', 'facebook', 'google'];
+  , authTypes = ['github', 'twitter', 'facebook', 'google']
+  , methods = require('../lib/methods');
 
 
 /**
