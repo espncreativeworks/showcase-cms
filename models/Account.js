@@ -157,6 +157,11 @@ Account.schema.methods = {
   }
 };
 
+methods.toJSON.set({ 
+  list: Account,
+  omit: ['__v', 'hashedPassword', 'salt']
+});
+
 // Registration
 // ------------------------------
 Account.defaultSort = '';
