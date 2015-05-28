@@ -13,6 +13,7 @@ var keystone = require('keystone')
 
 var CollectionItem = new keystone.List('CollectionItem', {
   map: { name: 'title' },
+  autokey: { path: 'slug', from: 'title notes', unique: true },
   track: true,
   searchFields: 'belongsTo, title, notes, image, video, document'
 });
