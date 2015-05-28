@@ -12,12 +12,13 @@ var keystone = require('keystone')
  */
 
 var CollectionItem = new keystone.List('CollectionItem', {
+  map: { name: 'title' },
   track: true,
   searchFields: 'belongsTo, title, notes, image, video, document'
 });
 
 CollectionItem.add({
-  title: { type: Types.Text, collapse: true },
+  title: { type: Types.Text, collapse: true, required: true, initial: true },
   notes: { type: Types.Textarea, collapse: true },
   belongsTo: { type: Types.Relationship, ref: 'Collection', label: 'Collection', required: true, initial: true }, 
 }, 'Content', {
@@ -94,7 +95,7 @@ methods.toJSON.set({
 });
 
 CollectionItem.defaultSort = '-createdAt';
-CollectionItem.defaultColumns = '_id, belongsTo, modifiedAt';
+CollectionItem.defaultColumns = 'name, belongsTo, createdAt';
 CollectionItem.register();
 
 
