@@ -18,7 +18,7 @@ var CollectionItem = new keystone.List('CollectionItem', {
 
 CollectionItem.add({
   title: { type: Types.Text, collapse: true },
-  notes: { type: Types.Markdown, collapse: true },
+  notes: { type: Types.Textarea, collapse: true },
   belongsTo: { type: Types.Relationship, ref: 'Collection', label: 'Collection', required: true, initial: true }, 
 }, 'Content', {
   image: { type: Types.Relationship, ref: 'Image', collapse: true },
