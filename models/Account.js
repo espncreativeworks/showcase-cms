@@ -1,7 +1,8 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
   , crypto = require('crypto')
-  , authTypes = ['github', 'twitter', 'facebook', 'google'];
+  , authTypes = ['github', 'twitter', 'facebook', 'google']
+  , methods = require('../lib/methods');
 
 
 /**
@@ -156,6 +157,11 @@ Account.schema.methods = {
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
   }
 };
+
+methods.toJSON.set({ 
+  list: Account,
+  omit: ['__v', 'hashedPassword', 'salt']
+});
 
 // Registration
 // ------------------------------

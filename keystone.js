@@ -129,11 +129,11 @@ keystone.set('nav', {
 	'projects': 'projects',
 	'executions': 'executions',
 	'media': ['videos', 'images', 'documents'],
-	'tags': ['image-tags', 'video-tags', 'document-tags', 'execution-tags'],
+	'tags': ['execution-tags', 'image-tags', 'video-tags', 'document-tags'],
 	'segments': ['platforms', 'sports', 'industries', 'channels'],
 	// 'blog': ['posts', 'post-tags'],
 	// 'contact': 'enquiries',
-	'profiles': ['accounts', 'brands', 'people', 'locations'],
+	'profiles': ['brands', 'people', 'locations', 'accounts'],
 	'collections': ['collections', 'collection-items'],
 	'admin': ['users']
 });
