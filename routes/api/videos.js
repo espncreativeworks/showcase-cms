@@ -7,6 +7,7 @@ function listVideos(req, res){
     , q;
 
   q = Video.find(doc);
+  q = utils.relationships.populate(Video, q, req);
   q.sort('sortOrder');
   
   q.exec().then(function(videos){

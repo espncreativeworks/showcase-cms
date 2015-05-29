@@ -7,6 +7,7 @@ function listImages(req, res){
     , q;
 
   q = _Image.find(doc);
+  q = utils.relationships.populate(_Image, q, req);
   q.sort('sortOrder');
 
   q.exec().then(function(images){
