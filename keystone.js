@@ -128,12 +128,12 @@ keystone.set('email tests', require('./routes/emails'));
 keystone.set('nav', {
 	'projects': 'projects',
 	'executions': 'executions',
-	'media': ['images', 'videos', 'documents'],
-	'tags': ['image-tags', 'video-tags', 'document-tags', 'execution-tags'],
+	'media': ['videos', 'images', 'documents'],
+	'tags': ['execution-tags', 'image-tags', 'video-tags', 'document-tags'],
 	'segments': ['platforms', 'sports', 'industries', 'channels'],
 	// 'blog': ['posts', 'post-tags'],
 	// 'contact': 'enquiries',
-	'profiles': ['accounts', 'brands', 'people', 'locations'],
+	'profiles': ['brands', 'people', 'locations', 'accounts'],
 	'collections': ['collections', 'collection-items'],
 	'admin': ['users']
 });

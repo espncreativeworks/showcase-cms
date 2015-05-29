@@ -12,18 +12,20 @@ var keystone = require('keystone')
  */
 
 var CollectionItem = new keystone.List('CollectionItem', {
+  map: { name: 'title' },
+  autokey: { path: 'slug', from: 'title notes', unique: true },
   track: true,
-  searchFields: 'belongsTo, title, notes, images, videos, documents'
+  searchFields: 'belongsTo, title, notes, image, video, document'
 });
 
 CollectionItem.add({
-  title: { type: Types.Text, collapse: true },
-  notes: { type: Types.Markdown, collapse: true },
+  title: { type: Types.Text, collapse: true, required: true, initial: true },
+  notes: { type: Types.Textarea, collapse: true },
   belongsTo: { type: Types.Relationship, ref: 'Collection', label: 'Collection', required: true, initial: true }, 
 }, 'Content', {
-  images: { type: Types.Relationship, ref: 'Image', many: true, collapse: true },
-  videos: { type: Types.Relationship, ref: 'Video', many: true, collapse: true },
-  documents: { type: Types.Relationship, ref: 'Document', many: true, collapse: true }
+  image: { type: Types.Relationship, ref: 'Image', collapse: true },
+  video: { type: Types.Relationship, ref: 'Video', collapse: true },
+  document: { type: Types.Relationship, ref: 'Document', collapse: true }
 });
 
 meta.add({ list: CollectionItem });
@@ -82,7 +84,7 @@ removeFromRelated.add({
 
 statics.findOrCreate.add({ 
   list: CollectionItem, 
-  validKeys: [ 'belongsTo', 'title', 'notes', 'videos', 'images', 'documents', 'note' ] 
+  validKeys: [ 'belongsTo', 'title', 'notes', 'video', 'image', 'document' ] 
 });
 
 
@@ -94,7 +96,7 @@ methods.toJSON.set({
 });
 
 CollectionItem.defaultSort = '-createdAt';
-CollectionItem.defaultColumns = '_id, belongsTo, modifiedAt';
+CollectionItem.defaultColumns = 'name, belongsTo, createdAt';
 CollectionItem.register();
 
 
