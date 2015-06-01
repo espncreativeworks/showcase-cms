@@ -22,11 +22,52 @@ function listCollections(req, res){
   });
 }
 
+function listAccountCollections(req, res){
+  var doc = utils.queries.defaults.list()
+    , q;
+
+  doc.$and.push({ creator: req.params.accountId });
+
+  q = Collection.find(doc);
+  q = utils.relationships.populate(Collection, q, req);
+
+  q.exec().then(function(collections){
+    if (collections.length){
+      res.status(200).json(collections);  
+    } else {
+      utils.errors.notFound(res, []);
+    }
+  }, function (err){
+    utils.errors.internal(res, err);
+  });
+}
+
 function showCollection(req, res){
   var key = req.params.key
     , doc = utils.queries.defaults.show(key)
     , q;
   
+  q = Collection.findOne(doc);
+  q = utils.relationships.populate(Collection, q, req);
+
+  q.exec().then(function (collection){
+    if (collection){
+      res.status(200).json(collection);  
+    } else {
+      utils.errors.notFound(res, {});
+    }
+  }, function (err){
+    utils.errors.internal(res, err);
+  });
+}
+
+function showAccountCollection(req, res){
+  var key = req.params.key
+    , doc = utils.queries.defaults.show(key)
+    , q;
+  
+  doc.$and.push({ creator: req.params.accountId });
+
   q = Collection.findOne(doc);
   q = utils.relationships.populate(Collection, q, req);
 
@@ -125,5 +166,9 @@ exports = module.exports = {
   show: showCollection,
   create: createCollection,
   update: updateCollection,
-  destroy: destroyCollection
+  destroy: destroyCollection,
+  account: {
+    list: listAccountCollections,
+    show: showAccountCollection
+  }
 };
