@@ -8,6 +8,8 @@ function listCollections(req, res){
   var doc = utils.queries.defaults.list()
     , q;
 
+  doc.$and.push({ visibility: 'public' });
+
   q = Collection.find(doc);
   q = utils.relationships.populate(Collection, q, req);
 
@@ -27,6 +29,27 @@ function listAccountCollections(req, res){
     , q;
 
   doc.$and.push({ creator: req.params.accountId });
+  doc.$and.push({ visibility: 'public' });
+
+  q = Collection.find(doc);
+  q = utils.relationships.populate(Collection, q, req);
+
+  q.exec().then(function(collections){
+    if (collections.length){
+      res.status(200).json(collections);  
+    } else {
+      utils.errors.notFound(res, []);
+    }
+  }, function (err){
+    utils.errors.internal(res, err);
+  });
+}
+
+function listMyCollections(req, res){
+  var doc = utils.queries.defaults.list()
+    , q;
+
+  doc.$and.push({ creator: req.get('X-Account-Id') });
 
   q = Collection.find(doc);
   q = utils.relationships.populate(Collection, q, req);
@@ -46,6 +69,8 @@ function showCollection(req, res){
   var key = req.params.key
     , doc = utils.queries.defaults.show(key)
     , q;
+
+  doc.$and.push({ visibility: 'public' });
   
   q = Collection.findOne(doc);
   q = utils.relationships.populate(Collection, q, req);
@@ -67,6 +92,7 @@ function showAccountCollection(req, res){
     , q;
   
   doc.$and.push({ creator: req.params.accountId });
+  doc.$and.push({ visibility: 'public' });
 
   q = Collection.findOne(doc);
   q = utils.relationships.populate(Collection, q, req);
@@ -81,6 +107,28 @@ function showAccountCollection(req, res){
     utils.errors.internal(res, err);
   });
 }
+
+function showMyCollection(req, res){
+  var key = req.params.key
+    , doc = utils.queries.defaults.show(key)
+    , q;
+  
+  doc.$and.push({ creator: req.get('X-Account-Id') });
+
+  q = Collection.findOne(doc);
+  q = utils.relationships.populate(Collection, q, req);
+
+  q.exec().then(function (collection){
+    if (collection){
+      res.status(200).json(collection);  
+    } else {
+      utils.errors.notFound(res, {});
+    }
+  }, function (err){
+    utils.errors.internal(res, err);
+  });
+}
+
 
 function createCollection(req, res){
   var doc = req.body
@@ -167,6 +215,10 @@ exports = module.exports = {
   create: createCollection,
   update: updateCollection,
   destroy: destroyCollection,
+  me: {
+    list: listMyCollections,
+    show: showMyCollection
+  },
   account: {
     list: listAccountCollections,
     show: showAccountCollection

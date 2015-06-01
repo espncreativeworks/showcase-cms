@@ -47,6 +47,8 @@ exports = module.exports = function(app) {
   // API
 
   // account-scoped resources
+  app.get('/api/accounts/me/collections', routes.api.collections.me.list);
+  app.get('/api/accounts/me/collections/:key', routes.api.collections.me.show);
   app.get('/api/accounts/:accountId/collections', routes.api.collections.account.list);
   app.get('/api/accounts/:accountId/collections/:key', routes.api.collections.account.show);
   
