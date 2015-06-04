@@ -19,7 +19,9 @@ exports = module.exports = {
         ] 
       };
 
-      if (!opts || !('status' in opts) || opts.status === true){
+      opts = opts || {};
+
+      if (!('status' in opts) || opts.status === true){
         doc.$and.push({ $or: [ { status: 'published' }, { status: 'archived' } ] });
       }
 
