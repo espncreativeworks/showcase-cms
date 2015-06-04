@@ -21,7 +21,7 @@ function listExecutionTags(req, res){
 
 function showExecutionTag(req, res){
   var key = req.params.key
-    , doc = utils.queries.defaults.show(key)
+    , doc = utils.queries.defaults.show(key, { status: false })
     , q;
   
   q = ExecutionTag.findOne(doc);
