@@ -20,9 +20,7 @@ exports = module.exports = {
       };
 
       if (!('status' in opts) || opts.status === true){
-        doc.$and = [ 
-          { $or: [ { status: 'published' }, { status: 'archived' } ] }
-        ];
+        doc.$and.push({ $or: [ { status: 'published' }, { status: 'archived' } ] });
       }
 
       if (key.match(/^[0-9a-fA-F]{24}$/)) {
