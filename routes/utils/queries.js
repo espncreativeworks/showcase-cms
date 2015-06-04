@@ -12,13 +12,18 @@ exports = module.exports = {
       
       return doc;
     },
-    show: function (key){
+    show: function (key, opts){
       var doc = { 
         $and: [ 
-          { $or: [ { slug: key }, { 'meta.slug': key }, { key: key } ] }, 
-          { $or: [ { status: 'published' }, { status: 'archived' } ] } 
+          { $or: [ { slug: key }, { 'meta.slug': key }, { key: key } ] }
         ] 
       };
+
+      if (!('status' in opts) || opts.status === true){
+        doc.$and = [ 
+          { $or: [ { status: 'published' }, { status: 'archived' } ] }
+        ];
+      }
 
       if (key.match(/^[0-9a-fA-F]{24}$/)) {
         doc.$and[0].$or.push({ _id: key });
