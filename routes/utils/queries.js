@@ -15,7 +15,7 @@ exports = module.exports = {
     show: function (key){
       var doc = { 
         $and: [ 
-          { $or: [ { slug: key }, { 'meta.slug': key } ] }, 
+          { $or: [ { slug: key }, { 'meta.slug': key }, { key: key } ] }, 
           { $or: [ { status: 'published' }, { status: 'archived' } ] } 
         ] 
       };
