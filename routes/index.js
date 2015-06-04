@@ -45,6 +45,12 @@ exports = module.exports = function(app) {
   // app.get('/protected', middleware.requireUser, routes.views.protected);
 
   // API
+
+  // account-scoped resources
+  app.get('/api/accounts/me/collections', routes.api.collections.me.list);
+  app.get('/api/accounts/me/collections/:key', routes.api.collections.me.show);
+  app.get('/api/accounts/:accountId/collections', routes.api.collections.account.list);
+  app.get('/api/accounts/:accountId/collections/:key', routes.api.collections.account.show);
   
   // brands
   app.get('/api/brands', routes.api.brands.list);
