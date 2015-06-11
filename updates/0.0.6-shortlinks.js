@@ -28,6 +28,7 @@ var keystone = require('keystone')
 	] 
 	, saver = function (document){
 		return function (callback){
+			if (document.meta.uris.shortened) { callback(null, null); return; }
 			if (!document.meta.uris.web){ callback(new Error('Invalid document.meta.uris.web'), null); return; }
 		  Bitly.shortenLink('http://showcase.espncreativeworks.com' + document.meta.uris.web, function (err, response){
 		  	if (err) { callback(err, null); return; }
