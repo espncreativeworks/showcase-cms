@@ -62,7 +62,19 @@ keystone.init({
 	'auth': true,
 	'user model': 'User',
 	'cookie secret': process.env.COOKIE_SECRET,
-	'raygun client': raygunClient
+	'raygun client': raygunClient,
+	'list urls': {
+		project: cmsUrl + 'projects',
+		execution: cmsUrl + 'executions',
+		image: cmsUrl + 'images',
+		video: cmsUrl + 'videos',
+		executionTag: cmsUrl + 'execution-tags',
+		platform: cmsUrl + 'platforms',
+		sport: cmsUrl + 'sports',
+		industry: cmsUrl + 'industries',
+		brand: cmsUrl + 'brands',
+		person: cmsUrl + 'people'
+	}
 
 });
 
