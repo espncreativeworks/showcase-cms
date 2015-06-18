@@ -19,11 +19,11 @@ if ('production' !== process.env.NODE_ENV){
 }
 
 if ('production' === process.env.NODE_ENV){
-	cmsUrl = 'https://cms.espncreativeworks.com/keystone/';
+	cmsUrl = 'http://cms.espncreativeworks.com/keystone/';
 }
 
 if ('staging' === process.env.NODE_ENV){
-	cmsUrl = 'https://showcase-cms-stg.herokuapp.com/keystone/';
+	cmsUrl = 'http://showcase-cms-stg.herokuapp.com/keystone/';
 }
 
 if ('development' === process.env.NODE_ENV){
