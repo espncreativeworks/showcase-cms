@@ -4,7 +4,8 @@ var keystone = require('keystone')
   , social = require('../lib/social')
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
   , statics = require('../lib/statics')
-  , methods = require('../lib/methods');
+  , methods = require('../lib/methods')
+  , listUrls = keystone.get('list urls');
 
 
 /**
@@ -27,7 +28,7 @@ Brand.add({
     extended: { type: Types.Markdown, collapse: true }
   },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  industries: { type: Types.Relationship, ref: 'Industry', many: true },
+  industries: { type: Types.Relationship, ref: 'Industry', many: true, note: 'See [industries](' + listUrls.industry + ')' },
   related: { type: Types.Relationship, ref: 'Brand', many: true, collapse: true }
 }, 'Images', {
   hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' }, collapse: true },

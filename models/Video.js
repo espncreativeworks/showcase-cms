@@ -3,7 +3,8 @@ var keystone = require('keystone')
   , meta = require('../lib/meta')
   , methods = require('../lib/methods')
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
-  , _ = require('underscore');
+  , _ = require('underscore')
+  , listUrls = keystone.get('list urls');
 
 
 /**
@@ -34,10 +35,10 @@ Video.add({
     index: true 
   },
   usage: { type: Types.Select, options: 'animation, execution, hero, poster, other', default: 'execution', required: true, initial: true, index: true },
-  execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
-  platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
+  execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' }, note: 'See [executions](' + listUrls.execution + ')' },
+  platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' }, note: 'See [platforms](' + listUrls.platform + ')' },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
-  people: { type: Types.Relationship, ref: 'Person', many: true, collapse: true },
+  people: { type: Types.Relationship, ref: 'Person', many: true, collapse: true, note: 'See [people](' + listUrls.person + ')' },
   tags: { type: Types.Relationship, ref: 'VideoTag', many: true, collapse: true },
   related: { type: Types.Relationship, ref: 'Video', many: true, collapse: true }
 }, 
@@ -52,7 +53,7 @@ Video.add({
 { heading: 'Vimeo', dependsOn: { host: 'vimeo' } }, 
 {
   vimeo: {
-    id: { type: Types.Text, index: true, label: 'Vimeo ID', dependsOn: { host: 'vimeo' } },
+    id: { type: Types.Text, index: true, label: 'Vimeo ID', dependsOn: { host: 'vimeo' }, note: 'can be found in URL on Vimeo after upload; e.g. if URL is https://vimeo.com/122843107 Vimeo ID is 122843107' },
     url: { type: Types.Url, watch: 'vimeo.id', value: function (){ return 'https://vimeo.com/' + this.vimeo.id; }, label: 'Vimeo URL', noedit: true, dependsOn: { host: 'vimeo' } },
     embed: { type: Types.Embedly, from: 'vimeo.url', hidden: true, dependsOn: { host: 'vimeo' } }
   }

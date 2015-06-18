@@ -1,7 +1,8 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
   , methods = require('../lib/methods')
-  , removeFromRelated = require('../lib/hooks/removeFromRelated');
+  , removeFromRelated = require('../lib/hooks/removeFromRelated')
+  , listUrls = keystone.get('list urls');
 
 /**
  * ExecutionTag Model
@@ -14,7 +15,7 @@ var ExecutionTag = new keystone.List('ExecutionTag', {
 
 ExecutionTag.add({
   name: { type: String, required: true, initial: true },
-  platform: { type: Types.Relationship, ref: 'Platform', required: true, initial: true }
+  platform: { type: Types.Relationship, ref: 'Platform', required: true, initial: true, note: 'See [platforms](' + listUrls.platform + ')' }
 });
 
 // Methods

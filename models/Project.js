@@ -1,7 +1,8 @@
 var keystone = require('keystone')
   , Types = keystone.Field.Types
   , meta = require('../lib/meta')
-  , methods = require('../lib/methods');
+  , methods = require('../lib/methods')
+  , listUrls = keystone.get('list urls');
 
 /**
  * Project Model
@@ -28,12 +29,12 @@ Project.add({
   highlights: { type: Types.Markdown },
   status: { type: Types.Select, options: 'draft, published, archived', default: 'draft', index: true },
   isFeatured: { type: Types.Boolean, default: false },
-  brands: { type: Types.Relationship, ref: 'Brand', many: true },
-  executions: { type: Types.Relationship, ref: 'Execution', many: true },
-  sports: { type: Types.Relationship, ref: 'Sport', many: true },
+  brands: { type: Types.Relationship, ref: 'Brand', many: true, note: 'See [brands](' + listUrls.brand + ')'},
+  executions: { type: Types.Relationship, ref: 'Execution', many: true, note: 'See [executions](' + listUrls.execution + ')'},
+  sports: { type: Types.Relationship, ref: 'Sport', many: true, note: 'See [sports](' + listUrls.sport + ')'},
   related: { type: Types.Relationship, ref: 'Project', many: true }
 }, 'Images', {
-  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' } },
+  hero: { type: Types.Relationship, ref: 'Image', filters: { usage: 'hero' }, note: 'See [images](' + listUrls.image + ')'},
   thumbnail: { type: Types.Relationship, ref: 'Image', filters: { usage: 'thumbnail' }, collapse: true },
   logo: { type: Types.Relationship, ref: 'Image', filters: { usage: 'logo' }, collapse: true }
 });
