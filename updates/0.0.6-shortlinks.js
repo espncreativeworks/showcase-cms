@@ -56,7 +56,7 @@ function runUpdate (done) {
 	});
 }
 
-exports = module.exports = function (done) {
+var update = function (done) {
 
 	queries.forEach(function (q){
 		q.then(function (documents){
@@ -76,3 +76,13 @@ exports = module.exports = function (done) {
 	});
 
 };
+
+if (process.env.NODE_ENV !== 'production') {
+	update = function (done){
+		setTimeout(function (){
+			done(null, []);
+		}, 50);
+	}
+}
+
+exports = module.exports = update;

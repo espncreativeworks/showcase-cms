@@ -3,7 +3,8 @@ var keystone = require('keystone')
   , removeFromRelated = require('../lib/hooks/removeFromRelated')
   , meta = require('../lib/meta')
   , methods = require('../lib/methods')
-  , _ = require('underscore');
+  , _ = require('underscore')
+  , listUrls = keystone.get('list urls');
 
 /**
  * Image Model
@@ -27,9 +28,9 @@ _Image.add({
   caption: { type: Types.Markdown, collapse: true },
   credit: { type: Types.Markdown, collapse: true },
   usage: { type: Types.Select, options: 'icon, cover, execution, headshot, hero, logo, poster, thumbnail, facebook, twitter, other', required: true, initial: true, index: true },
-  execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' } },
-  platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' } },
-  people: { type: Types.Relationship, ref: 'Person', many: true, collapse: true },
+  execution: { type: Types.Relationship, ref: 'Execution', dependsOn: { usage: 'execution' }, note: 'See [executions](' + listUrls.execution + ')' },
+  platform: { type: Types.Relationship, ref: 'Platform', dependsOn: { usage: 'execution' }, note: 'See [platforms](' + listUrls.platform + ')' },
+  people: { type: Types.Relationship, ref: 'Person', many: true, collapse: true, note: 'See [people](' + listUrls.person + ')' },
   tags: { type: Types.Relationship, ref: 'ImageTag', many: true, collapse: true },
   related: { type: Types.Relationship, ref: 'Image', many: true, collapse: true }
 });

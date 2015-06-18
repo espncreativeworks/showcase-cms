@@ -50,6 +50,16 @@ models.forEach(function (Model){
 	});
 });
 
-exports = module.exports = function (done) {
+var update = function (done) {
 	async.parallelLimit(tasks, 7, done);
 };
+
+if (process.env.NODE_ENV !== 'production') {
+	update = function (done) {
+		setTimeout(function (){
+			done(null, []);
+		}, 50);
+	}
+}
+
+exports = module.exports = update;
