@@ -281,6 +281,10 @@ function createProject(req, res){
   });
 }
 
+function monitorProjects(req, res){
+  res.status(200).json({ "status": "ok" });
+}
+
 exports = module.exports = {
   list: listProjects,
   featured: featuredProjects,
@@ -288,5 +292,6 @@ exports = module.exports = {
   show: showProject,
   executions: showProjectExecutions,
   tags: showProjectTags,
-  create: createProject
+  create: createProject,
+  monitor: monitorProjects
 };
