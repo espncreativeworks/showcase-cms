@@ -282,7 +282,7 @@ function createProject(req, res){
 }
 
 function monitorProjects(req, res){
-  res.status(200).end();
+  res.status(204).end();
 }
 
 exports = module.exports = {
