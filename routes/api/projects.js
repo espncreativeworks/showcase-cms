@@ -282,7 +282,7 @@ function createProject(req, res){
 }
 
 function monitorProjects(req, res){
-  res.status(200).json({ "status": "ok" });
+  res.status(200).end();
 }
 
 exports = module.exports = {
