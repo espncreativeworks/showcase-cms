@@ -67,13 +67,17 @@ function updateCollectionItem (req, res){
       body = _.omit(req.body, '_id');
 
       _.each(_.keys(body), function (key){
+        // console.log("update collection item: ", key)
         collectionItem[key] = body[key];
       });
 
       collectionItem.save(function (err, doc){
+        // console.log("doc: ", doc);
         if (err){
+          // console.log("collection item save failed: ", err);
           deferred.reject(err);
         } else {
+          // console.log("collection item saved: \n", doc)
           deferred.resolve(doc);
         }
       });
@@ -81,6 +85,7 @@ function updateCollectionItem (req, res){
 
     return deferred.promise;
   }).then(function (collectionItem){
+    // console.log("success: ", collectionItem)
     res.status(200).json(collectionItem);
   }, function (err){
     utils.errors.internal(res, err);
